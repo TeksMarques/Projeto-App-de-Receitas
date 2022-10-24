@@ -27,6 +27,17 @@ function RecipesProvider({ children }) {
     }
   }, [email, password]);
 
+  const tituloPagina = ({ location: { pathname } }) => {
+    switch (pathname) {
+    case '/meals': return 'Meals';
+    case '/drinks': return 'Drinks';
+    case '/profile': return 'Profile';
+    case '/done-recipes': return 'Done Recipes';
+    case '/favorite-recipes': return 'Favorite Recipes';
+    default: return 'Titulo da página';
+    }
+  };
+
   const history = useHistory();
   const submitInfo = useCallback((event) => {
     event.preventDefault();
@@ -41,7 +52,14 @@ function RecipesProvider({ children }) {
     useEmail,
     usePassword,
     submitInfo,
-  }), [email, password, submitDisabled, useEmail, usePassword, submitInfo]);
+    tituloPagina,
+  }), [email,
+    password,
+    submitDisabled,
+    useEmail,
+    usePassword,
+    submitInfo,
+  ]);
 
   return (
     <RecipesContext.Provider value={ context }>
