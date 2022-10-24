@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from './RecipesContext';
@@ -9,15 +9,13 @@ function RecipesProvider({ children }) {
   const [submitDisabled, setsubmitDisabled] = useState(true);
   /* const [users, setUsers] = useState([]); */
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const useEmail = ({ target: { value } }) => {
+  const useEmail = useCallback(({ target: { value } }) => {
     setEmail(value);
-  };
+  }, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const usePassword = ({ target: { value } }) => {
+  const usePassword = useCallback(({ target: { value } }) => {
     setPassword(value);
-  };
+  }, []);
 
   useEffect(() => {
     const regex = /\S+@\S+\.\S+/;
@@ -30,12 +28,11 @@ function RecipesProvider({ children }) {
   }, [email, password]);
 
   const history = useHistory();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const submitInfo = (event) => {
+  const submitInfo = useCallback((event) => {
     event.preventDefault();
     history.push('/meals');
     localStorage.setItem('user', JSON.stringify({ email }));
-  };
+  }, [email, history]);
 
   const context = useMemo(() => ({
     email,
