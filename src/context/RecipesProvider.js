@@ -7,6 +7,7 @@ function RecipesProvider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitDisabled, setsubmitDisabled] = useState(true);
+  const [searchBar, setSearchBar] = useState(false);
   /* const [users, setUsers] = useState([]); */
 
   const useEmail = useCallback(({ target: { value } }) => {
@@ -38,6 +39,10 @@ function RecipesProvider({ children }) {
     }
   };
 
+  const showSearch = () => {
+    setSearchBar(!searchBar);
+  };
+
   const history = useHistory();
   const submitInfo = useCallback((event) => {
     event.preventDefault();
@@ -53,12 +58,16 @@ function RecipesProvider({ children }) {
     usePassword,
     submitInfo,
     tituloPagina,
+    searchBar,
+    showSearch,
   }), [email,
     password,
     submitDisabled,
     useEmail,
     usePassword,
     submitInfo,
+    searchBar,
+    showSearch,
   ]);
 
   return (
