@@ -40,3 +40,14 @@ test('Testa botão de pesquisa', () => {
     expect(searchInput).not.toBeInTheDocument();
   }
 });
+test('Titulo da pagina', () => {
+  const { history } = renderWithRouter(
+    <RecipesProvider>
+      <Meals />
+    </RecipesProvider>,
+  );
+  if (history.location.pathname === '/meals') {
+    const title = screen.getByTestId('page-title');
+    expect(title).toBeInTheDocument();
+  }
+});
