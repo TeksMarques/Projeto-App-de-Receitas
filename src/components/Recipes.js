@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function CardRecipes(props) {
+export default function Recipes(props) {
   const { img, tag, index } = props;
   return (
     <div data-testid={ `${index}-recipe-card` }>
@@ -11,7 +11,7 @@ export default function CardRecipes(props) {
   );
 }
 
-CardRecipes.propTypes = {
+Recipes.propTypes = {
   img: PropTypes.string,
   tag: PropTypes.string,
 }.isRequired;

@@ -4,6 +4,8 @@ import userEvent from '@testing-library/user-event';
 import { renderWithRouter } from './renderWith';
 import RecipesProvider from '../context/RecipesProvider';
 import Meals from '../pages/Meals';
+import { act } from 'react-dom/test-utils';
+import App from '../App';
 // import Drinks from '../pages/Drinks';
 
 test('Testa botao de perfil', () => {
@@ -20,21 +22,26 @@ test('Testa botao de perfil', () => {
     expect(pathname).toBe('/profile');
   }
 });
-test('Testa botão de pesquisa no /meals', () => {
-  const { history } = renderWithRouter(
-    <RecipesProvider>
-      <Meals />
-    </RecipesProvider>,
+test('Testa botão de pesquisa no /meals', async () => {
+  const { history, debug } = renderWithRouter(
+      <App />
   );
+  console.log(history);
+  act(() => {
+    history.push('/meals');
+  });
+  debug();
   if (history.location.pathname === '/meals') {
     const profileLink = screen.getByTestId('profile-top-btn');
     const searchLink = screen.getByRole('button');
-    const searchIcon = screen.getByTestId('search-top-btn');
+    const searchIcon = screen.getByRole('button', {
+      name: /search/i,
+    });
     expect(profileLink).toBeInTheDocument();
     expect(searchLink).toBeInTheDocument();
     expect(searchIcon).toBeInTheDocument();
-    expect(screen.getByTestId('search-input')).not.toBeInTheDocument();
     userEvent.click(searchLink);
+    await screen.findByTestId('search-input');
     const searchInput = screen.getByTestId('search-input');
     expect(searchInput).toBeInTheDocument();
     userEvent.type(searchInput, 'receita');

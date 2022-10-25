@@ -27,4 +27,26 @@ const fetchDrinkBy = async (modo, valor) => {
   }
 };
 
-export { fetchMealBy, fetchDrinkBy };
+const fetchMeals = async () => {
+  const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  try {
+    const response = await fetch(url);
+    const responseJson = await response.json();
+    return responseJson.meals;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const fetchDrinks = async () => {
+  const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  try {
+    const response = await fetch(url);
+    const responseJson = await response.json();
+    return responseJson;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+export { fetchMealBy, fetchDrinkBy, fetchMeals, fetchDrinks };

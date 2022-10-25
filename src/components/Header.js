@@ -9,6 +9,7 @@ export default function Header() {
   const { tituloPagina, searchBar, showSearch } = useContext(RecipesContext);
 
   const history = useHistory();
+  console.log(searchBar);
   return (
     <header>
       <Link to="/profile">
