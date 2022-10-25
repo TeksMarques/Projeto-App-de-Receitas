@@ -7,6 +7,7 @@ function RecipesProvider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitDisabled, setsubmitDisabled] = useState(true);
+  const [searchBar, setSearchBar] = useState(false);
   /* const [users, setUsers] = useState([]); */
 
   const useEmail = useCallback(({ target: { value } }) => {
@@ -27,6 +28,21 @@ function RecipesProvider({ children }) {
     }
   }, [email, password]);
 
+  const tituloPagina = ({ location: { pathname } }) => {
+    switch (pathname) {
+    case '/meals': return 'Meals';
+    case '/drinks': return 'Drinks';
+    case '/profile': return 'Profile';
+    case '/done-recipes': return 'Done Recipes';
+    case '/favorite-recipes': return 'Favorite Recipes';
+    default: return 'Titulo da página';
+    }
+  };
+
+  const showSearch = useCallback(() => {
+    setSearchBar(!searchBar);
+  }, [searchBar]);
+
   const history = useHistory();
   const submitInfo = useCallback((event) => {
     event.preventDefault();
@@ -41,7 +57,18 @@ function RecipesProvider({ children }) {
     useEmail,
     usePassword,
     submitInfo,
-  }), [email, password, submitDisabled, useEmail, usePassword, submitInfo]);
+    tituloPagina,
+    searchBar,
+    showSearch,
+  }), [email,
+    password,
+    submitDisabled,
+    useEmail,
+    usePassword,
+    submitInfo,
+    searchBar,
+    showSearch,
+  ]);
 
   return (
     <RecipesContext.Provider value={ context }>
