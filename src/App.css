@@ -20,6 +20,11 @@
   border: none;
 }
 
+footer {
+  bottom: 0px;
+  position: fixed;
+}
+
 /*
 #iceLeft {
   animation: clink .8s infinite ease;
