@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from './RecipesContext';
-import fetchBy from '../services/fetchApi';
+import { fetchDrinkBy, fetchMealBy } from '../services/fetchApi';
 
 function RecipesProvider({ children }) {
   const [email, setEmail] = useState('');
@@ -12,6 +12,7 @@ function RecipesProvider({ children }) {
   const [searchString, setSearchString] = useState('');
   const [searchRadioButton, setSearchRadioButton] = useState('');
   const [mealsData, setMealsData] = useState([]);
+  const [drinksData, setDrinksData] = useState([]);
 
   const useEmail = useCallback(({ target: { value } }) => {
     setEmail(value);
@@ -29,12 +30,17 @@ function RecipesProvider({ children }) {
     setSearchRadioButton(value);
   }, []);
 
-  const searchBy = useCallback(async () => {
+  const searchBy = useCallback(async (estouEm) => {
     if (searchRadioButton === 'byFirstLetter' && searchString.length > 1) {
       global.alert('Your search must have only 1 (one) character');
     }
-    const response = await fetchBy(searchRadioButton, searchString);
-    setMealsData(response);
+    if (estouEm === '/meals') {
+      const response = await fetchMealBy(searchRadioButton, searchString);
+      setMealsData(response);
+    } else {
+      const response = await fetchDrinkBy(searchRadioButton, searchString);
+      setDrinksData(response);
+    }
   }, [searchRadioButton, searchString]);
 
   useEffect(() => {
@@ -75,6 +81,7 @@ function RecipesProvider({ children }) {
     searchString,
     submitDisabled,
     mealsData,
+    drinksData,
     useEmail,
     usePassword,
     useSearchString,
@@ -89,6 +96,7 @@ function RecipesProvider({ children }) {
     searchString,
     submitDisabled,
     mealsData,
+    drinksData,
     useEmail,
     usePassword,
     useSearchString,

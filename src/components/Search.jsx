@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 
 export default function Search() {
   const { searchString, useSearchString,
     useSearchRadioButton, searchBy } = useContext(RecipesContext);
+  const { location: { pathname } } = useHistory();
+  const estouEm = pathname;
   return (
     <form>
       <label htmlFor="search-input">
@@ -55,7 +58,7 @@ export default function Search() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ searchBy }
+        onClick={ () => searchBy(estouEm) }
       >
         Pesquisar
       </button>
