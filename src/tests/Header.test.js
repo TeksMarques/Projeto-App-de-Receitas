@@ -35,5 +35,8 @@ test('Testa botão de pesquisa', () => {
     userEvent.click(searchLink);
     const searchInput = screen.getByTestId('search-input');
     expect(searchInput).toBeInTheDocument();
+    userEvent.type(searchInput, 'receita');
+    userEvent.click(searchInput);
+    expect(searchInput).not.toBeInTheDocument();
   }
 });
