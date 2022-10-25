@@ -39,9 +39,9 @@ function RecipesProvider({ children }) {
     }
   };
 
-  const showSearch = () => {
+  const showSearch = useCallback(() => {
     setSearchBar(!searchBar);
-  };
+  }, [searchBar]);
 
   const history = useHistory();
   const submitInfo = useCallback((event) => {
