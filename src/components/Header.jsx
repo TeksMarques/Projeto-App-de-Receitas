@@ -24,6 +24,7 @@ export default function Header() {
       && (
         <button
           type="button"
+          data-testid="search-input"
           onClick={ showSearch }
         >
           <img
