@@ -2,13 +2,16 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from './RecipesContext';
+import fetchBy from '../services/fetchApi';
 
 function RecipesProvider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitDisabled, setsubmitDisabled] = useState(true);
   const [searchBar, setSearchBar] = useState(false);
-  /* const [users, setUsers] = useState([]); */
+  const [searchString, setSearchString] = useState('');
+  const [searchRadioButton, setSearchRadioButton] = useState('');
+  const [mealsData, setMealsData] = useState([]);
 
   const useEmail = useCallback(({ target: { value } }) => {
     setEmail(value);
@@ -17,6 +20,22 @@ function RecipesProvider({ children }) {
   const usePassword = useCallback(({ target: { value } }) => {
     setPassword(value);
   }, []);
+
+  const useSearchString = useCallback(({ target: { value } }) => {
+    setSearchString(value);
+  }, []);
+
+  const useSearchRadioButton = useCallback(({ target: { value } }) => {
+    setSearchRadioButton(value);
+  }, []);
+
+  const searchBy = useCallback(async () => {
+    if (searchRadioButton === 'byFirstLetter' && searchString.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+    }
+    const response = await fetchBy(searchRadioButton, searchString);
+    setMealsData(response);
+  }, [searchRadioButton, searchString]);
 
   useEffect(() => {
     const regex = /\S+@\S+\.\S+/;
@@ -53,20 +72,30 @@ function RecipesProvider({ children }) {
   const context = useMemo(() => ({
     email,
     password,
+    searchString,
     submitDisabled,
+    mealsData,
     useEmail,
     usePassword,
+    useSearchString,
+    useSearchRadioButton,
     submitInfo,
     tituloPagina,
     searchBar,
+    searchBy,
     showSearch,
   }), [email,
     password,
+    searchString,
     submitDisabled,
+    mealsData,
     useEmail,
     usePassword,
+    useSearchString,
+    useSearchRadioButton,
     submitInfo,
     searchBar,
+    searchBy,
     showSearch,
   ]);
 
