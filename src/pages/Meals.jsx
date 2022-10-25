@@ -5,6 +5,7 @@ export default function Meals() {
   return (
     <div>
       <Header />
+      <p>Sou o Meals</p>
     </div>
   );
 }

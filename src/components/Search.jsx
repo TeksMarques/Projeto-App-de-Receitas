@@ -6,7 +6,7 @@ export default function Search() {
       <input
         data-testid="search-input"
         type="text"
-        placeholder="search"
+        placeholder="Pesquise por receitas"
       />
     </form>
   );

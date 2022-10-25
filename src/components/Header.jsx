@@ -14,7 +14,7 @@ export default function Header() {
       <Link to="/profile">
         <img
           src={ profileIcon }
-          alt="icone de perfil"
+          alt="Profile"
           data-testid="profile-top-btn"
         />
       </Link>
@@ -25,12 +25,12 @@ export default function Header() {
         <button
           type="button"
           onClick={ showSearch }
+          className="search-top"
         >
           <img
-            className="search-top"
-            data-testid="search-top-btn"
             src={ searchIcon }
-            alt="serach icon"
+            data-testid="search-top-btn"
+            alt="Search"
           />
         </button>)}
 
@@ -38,7 +38,9 @@ export default function Header() {
         { tituloPagina(history) }
       </span>
 
-      { searchBar && <Search /> }
+      <div>
+        { searchBar && <Search /> }
+      </div>
 
     </header>
   );
