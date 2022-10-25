@@ -36,9 +36,15 @@ function RecipesProvider({ children }) {
     }
     if (estouEm === '/meals') {
       const response = await fetchMealBy(searchRadioButton, searchString);
+      if (response === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      }
       setMealsData(response);
     } else {
       const response = await fetchDrinkBy(searchRadioButton, searchString);
+      if (response === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      }
       setDrinksData(response);
     }
   }, [searchRadioButton, searchString]);

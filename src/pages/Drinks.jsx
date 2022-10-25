@@ -1,16 +1,25 @@
 import React, { useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import RecipesContext from '../context/RecipesContext';
+import CardRecipes from '../components/CardRecipes';
 
+const MAX_INDEX = 12;
 export default function Drinks() {
   const { drinksData } = useContext(RecipesContext);
   return (
     <div>
       <Header />
+      { drinksData.length === 1 && <Redirect to={ `/drinks/${drinksData[0].idDrink}` } />}
       <ul>
-        { drinksData.length > 0 && drinksData.map((drink) => (
-          <li key={ drink.idDrink }>{ drink.strDrink }</li>)) }
+        { drinksData?.map((drink, index) => index < MAX_INDEX && (
+          <CardRecipes
+            index={ index }
+            key={ drink.idDrink }
+            tag={ drink.strDrink }
+            img={ drink.strDrinkThumb }
+          />)) }
       </ul>
       <Footer />
     </div>
