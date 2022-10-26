@@ -1,47 +1,87 @@
 import React from 'react';
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 import { renderWithRouter } from './renderWith';
-import RecipesProvider from '../context/RecipesProvider';
-import Meals from '../pages/Meals';
+import App from '../App';
 
 describe('Testes da tela SearchBar', () => {
-  test('Testa ao pesquisar ingrediente', () => {
+  const searchTopBtn = 'search-top-btn';
+  const searchInput = 'search-input';
+  const execSearchButton = 'exec-search-btn';
+  const nameSearchRadio = 'name-search-radio';
+  const firstLetterSearchRadio = 'first-letter-search-radio';
+  test('Testando a Search Bar e botão Ingredients', () => {
     const { history } = renderWithRouter(
-      <RecipesProvider>
-        <Meals />
-      </RecipesProvider>,
+      <App />,
     );
-    if (history.location.pathname === '/meals') {
-      const searchLink = screen.getByTestId('search-top-btn');
-      userEvent.click(searchLink);
-      const searchInput = screen.getByTestId('search-input');
-      userEvent.type(searchInput, 'potato');
-      userEvent.click(screen.getByTestId('exec-search-btn'));
-      expect(history.location.pathname).toBe('/meals/52782');
-    }
+    act(() => {
+      history.push('/meals');
+    });
+
+    const searchButtonElement = screen.getByTestId(searchTopBtn);
+    userEvent.click(searchButtonElement);
+
+    const searchBarElement = screen.getByTestId(searchInput);
+    expect(searchBarElement).toBeInTheDocument();
+
+    const radioIngredientElement = screen.getByTestId('ingredient-search-radio');
+    expect(radioIngredientElement).toBeInTheDocument();
+
+    const radioNameElement = screen.getByTestId(nameSearchRadio);
+    expect(radioNameElement).toBeInTheDocument();
+
+    const radioFirstLetterElement = screen.getByTestId(firstLetterSearchRadio);
+    expect(radioFirstLetterElement).toBeInTheDocument();
+
+    const getResultButtonElement = screen.getByTestId(execSearchButton);
+    expect(getResultButtonElement).toBeInTheDocument();
+
+    userEvent.type(searchBarElement, 'chicken');
+    userEvent.click(radioIngredientElement);
+    userEvent.click(getResultButtonElement);
   });
-  test('Testa ao pesquisar por nome', async () => {
+  test('Testa pesquisa por nome', () => {
     const { history } = renderWithRouter(
-      <RecipesProvider>
-        <Meals />
-      </RecipesProvider>,
+      <App />,
     );
-    if (history.location.pathname === '/meals') {
-      const searchLink = screen.getByTestId('search-top-btn');
-      userEvent.click(searchLink);
-      const searchInput = screen.getByTestId('search-input');
-      userEvent.type(searchInput, 'potato');
-      userEvent.click(screen.getByText(/ingrediente/i));
-      userEvent.click(screen.getByText(/first letter/i));
-      userEvent.click(screen.getByText(/nome/i));
-      userEvent.click(screen.getByTestId('exec-search-btn'));
-      await waitFor(() => {
-        expect(fetch).toBeCalled();
-        expect(screen.getByTestId('0-recipe-card')).toBeInTheDocument();
-        expect(screen.getByTestId('0-card-img')).toBeInTheDocument();
-        expect(screen.getByTestId('0-card-name')).toBeInTheDocument();
-      });
-    }
+    act(() => {
+      history.push('/meals');
+    });
+    const searchButtonElement = screen.getByTestId(searchTopBtn);
+    userEvent.click(searchButtonElement);
+
+    const searchBarElement = screen.getByTestId(searchInput);
+    const radioNameElement = screen.getByTestId(nameSearchRadio);
+    const getResultButtonElement = screen.getByTestId(execSearchButton);
+
+    userEvent.type(searchBarElement, 'potato');
+    userEvent.click(radioNameElement);
+    userEvent.click(getResultButtonElement);
+  });
+  test('Testando pesquisa por Fisrt letter', async () => {
+    const { history } = renderWithRouter(
+      <App />,
+    );
+    act(() => {
+      history.push('/meals');
+    });
+    const searchButtonElement = screen.getByTestId(searchTopBtn);
+    userEvent.click(searchButtonElement);
+
+    const searchBarElement = screen.getByTestId(searchInput);
+    const radioFirstLetterElement = screen.getByTestId(firstLetterSearchRadio);
+    const getResultButtonElement = screen.getByTestId(execSearchButton);
+
+    userEvent.type(searchBarElement, 'c');
+    userEvent.click(radioFirstLetterElement);
+    userEvent.click(getResultButtonElement);
+    await screen.findByTestId('0-recipe-card');
+
+    // userEvent.type(searchBarElement, 'ca');
+    // userEvent.click(radioFirstLetterElement);
+    // userEvent.click(getResultButtonElement);
+    // global.alert = jest.fn();
+    // expect(global.alert).toHaveBeenCalledTimes(0);
   });
 });
