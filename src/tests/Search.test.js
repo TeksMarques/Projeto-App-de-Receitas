@@ -61,7 +61,7 @@ describe('Testes da tela SearchBar', () => {
     userEvent.click(getResultButtonElement);
     waitFor(() => {
       expect(history.location.pathname).toBe('/meals/52782');
-    }) 
+    });
   });
   test('Testando pesquisa por Fisrt letter', async () => {
     const { history } = renderWithRouter(
@@ -89,12 +89,11 @@ describe('Testes da tela SearchBar', () => {
     waitFor(() => {
       const primeiroCard = screen.findByTestId('0-recipe-card');
       expect(primeiroCard).toBeInTheDocument();
-      for (let index = 0; index < 13; index++) {
+      for (let index = 0; index < 13; index += 1) {
         const element = screen.findByTestId(`${index}-recipe-card`);
         expect(element).toBeInTheDocument();
       }
     });
-
 
     // userEvent.type(searchBarElement, 'ca');
     // userEvent.click(radioFirstLetterElement);

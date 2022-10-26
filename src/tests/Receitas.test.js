@@ -39,5 +39,4 @@ describe('Testes da tela Meals', () => {
       expect(categories.length).toBe(5);
     });
   });
-  
 });
