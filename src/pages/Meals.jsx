@@ -14,13 +14,15 @@ export default function Meals() {
     <div>
       <Header />
       <div className="navbar">
-        { mealsCategories.filter((cat, i) => i < MAX_CATEGORIES)
+        { mealsCategories?.filter((cat, i) => i < MAX_CATEGORIES)
           ?.map((cat) => (
-            <span
+            <button
+              type="button"
               key={ cat.strCategory }
+              data-testid={ `${cat.strCategory}-category-filter` }
             >
               { cat.strCategory }
-            </span>)) }
+            </button>)) }
       </div>
       <main>
         { (mealsData?.length === 1 && mealsData !== null)

@@ -16,11 +16,13 @@ export default function Drinks() {
       <div className="navbar">
         { drinksCategories.filter((cat, i) => i < MAX_CATEGORIES)
           ?.map((cat) => (
-            <span
+            <button
+              type="button"
               key={ cat.strCategory }
+              data-testid={ `${cat.strCategory}-category-filter` }
             >
               { cat.strCategory }
-            </span>)) }
+            </button>)) }
       </div>
       <main>
         { drinksData?.length === 1
