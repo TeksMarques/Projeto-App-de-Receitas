@@ -11,9 +11,9 @@ export default function Drinks() {
   return (
     <div>
       <Header />
-      { drinksData?.length === 1
-      && <Redirect to={ `/drinks/${drinksData[0].idDrink}` } />}
-      <ul>
+      <main>
+        { drinksData?.length === 1
+        && <Redirect to={ `/drinks/${drinksData[0].idDrink}` } />}
         { drinksData?.map((drink, index) => index < MAX_INDEX && (
           <Recipes
             index={ index }
@@ -21,7 +21,7 @@ export default function Drinks() {
             tag={ drink.strDrink }
             img={ drink.strDrinkThumb }
           />)) }
-      </ul>
+      </main>
       <Footer />
     </div>
   );

@@ -1,18 +1,21 @@
+* {
+  margin: 0 auto;
+  padding: 0;
+}
+
 .meals {
   align-items: center;
-  background: #0fa36b;
-  color: #464646;
+  background: #d90368;
+  color: #2e294e;
   display: flex;
   flex-direction: column;
   font-family: sans-serif;
-  height: 100vh;
   justify-content: center;
-  width: 100%;
 }
 
-.rocksGlass {
-  animation: shake 1s infinite ease;
-  max-height: 80vh;
+.meals form {
+  display: flex;
+  flex-flow: column wrap;
 }
 
 .search-top {
@@ -20,59 +23,48 @@
   border: none;
 }
 
+header {
+  align-items: center;
+  background-color: #ffd400;
+  display: flex;
+  flex-flow: column wrap;
+  gap: 5px;
+  width: 100%;
+}
+
+.header-icons {
+  background-color: #820263;
+  color: #eadeda;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  width: 100%;
+}
+
+.header-profile-search {
+  align-items: flex-end;
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+}
+
 footer {
+  display: flex;
+  background-color: white;
   bottom: 0;
   position: fixed;
+  width: 360px;
 }
 
-/*
-#iceLeft {
-  animation: clink .8s infinite ease;
-  opacity: 0.6;
-  transform-origin: 36px 66px;
+main {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 10px;
+  padding: 10px;
+  width: 360px;
 }
 
-#iceRight {
-  animation: clink .8s .2s infinite ease;
-  opacity: 0.6;
-  transform-origin: 60px 78px;
-}
-*/
-
-.meals > .logo {
-  animation: shake 1.5s infinite ease;
-  color: aliceblue;
-  font-family: Montserrat , sans-serif;
-  font-size: 3em;
-  font-weight: 900;
-}
-
-@keyframes shake {
-
-  0% {
-    transform: rotate(5deg);
-  }
-
-  50% {
-    transform: rotate(-5deg);
-  }
-
-  100% {
-    transform: rotate(5deg);
-  }
-}
-
-@keyframes clink {
-
-  0% {
-    transform: rotate(-10deg);
-  }
-
-  50% {
-    transform: rotate(20deg);
-  }
-
-  100% {
-    transform: rotate(-10deg);
-  }
+navbar {
+  background-color: white;
+  display: flex;
 }

@@ -2,7 +2,8 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from './RecipesContext';
-import { fetchDrinkBy, fetchMealBy } from '../services/fetchApi';
+import { fetchDrinkBy, fetchMealBy,
+  fetchMealCategories, fetchDrinkCategories } from '../services/fetchApi';
 
 function RecipesProvider({ children }) {
   const [email, setEmail] = useState('');
@@ -13,6 +14,8 @@ function RecipesProvider({ children }) {
   const [searchRadioButton, setSearchRadioButton] = useState('');
   const [mealsData, setMealsData] = useState([]);
   const [drinksData, setDrinksData] = useState([]);
+  const [mealsCategories, setMealsCategories] = useState([]);
+  const [drinksCategories, setDrinksCategories] = useState([]);
 
   const useEmail = useCallback(({ target: { value } }) => {
     setEmail(value);
@@ -59,6 +62,21 @@ function RecipesProvider({ children }) {
     }
   }, [email, password]);
 
+  useEffect(() => {
+    async function fazoFetch() {
+      const fetchMeal = await fetchMealBy(false, false);
+      const fetchDrink = await fetchDrinkBy(false, false);
+      const fetchMealCat = await fetchMealCategories();
+      console.log(fetchMealCat);
+      const fetchDrinkCat = await fetchDrinkCategories();
+      setMealsData(fetchMeal);
+      setDrinksData(fetchDrink);
+      setMealsCategories(fetchMealCat);
+      setDrinksCategories(fetchDrinkCat);
+    }
+    fazoFetch();
+  }, []);
+
   const tituloPagina = ({ location: { pathname } }) => {
     switch (pathname) {
     case '/meals': return 'Meals';
@@ -88,6 +106,8 @@ function RecipesProvider({ children }) {
     submitDisabled,
     mealsData,
     drinksData,
+    mealsCategories,
+    drinksCategories,
     useEmail,
     usePassword,
     useSearchString,
@@ -103,6 +123,8 @@ function RecipesProvider({ children }) {
     submitDisabled,
     mealsData,
     drinksData,
+    mealsCategories,
+    drinksCategories,
     useEmail,
     usePassword,
     useSearchString,
