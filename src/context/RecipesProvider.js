@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from './RecipesContext';
-import { fetchDrinkBy, fetchMealBy,
+import { fetchDrinkBy, fetchMealBy, fetchByMealCategory, fetchByDrinkCategory,
   fetchMealCategories, fetchDrinkCategories } from '../services/fetchApi';
 
 function RecipesProvider({ children }) {
@@ -16,6 +16,8 @@ function RecipesProvider({ children }) {
   const [drinksData, setDrinksData] = useState([]);
   const [mealsCategories, setMealsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
+  const [searchByCategory, setsearchByCategory] = useState(false);
+  const [filtroAtivado, setFiltroAtivado] = useState('');
 
   const useEmail = useCallback(({ target: { value } }) => {
     setEmail(value);
@@ -34,6 +36,7 @@ function RecipesProvider({ children }) {
   }, []);
 
   const searchBy = useCallback(async (estouEm) => {
+    setsearchByCategory(false);
     if (searchRadioButton === 'byFirstLetter' && searchString.length > 1) {
       global.alert('Your search must have only 1 (one) character');
     }
@@ -62,20 +65,31 @@ function RecipesProvider({ children }) {
     }
   }, [email, password]);
 
+  const fetchMeal = useCallback(async () => {
+    const getMeal = await fetchMealBy(false, false);
+    setMealsData(getMeal);
+    setFiltroAtivado('');
+    setsearchByCategory(false);
+  }, []);
+
+  const fetchDrink = useCallback(async () => {
+    const getDrink = await fetchDrinkBy(false, false);
+    setDrinksData(getDrink);
+    setFiltroAtivado('');
+    setsearchByCategory(false);
+  }, []);
+
   useEffect(() => {
     async function fazoFetch() {
-      const fetchMeal = await fetchMealBy(false, false);
-      const fetchDrink = await fetchDrinkBy(false, false);
       const fetchMealCat = await fetchMealCategories();
-      console.log(fetchMealCat);
       const fetchDrinkCat = await fetchDrinkCategories();
-      setMealsData(fetchMeal);
-      setDrinksData(fetchDrink);
       setMealsCategories(fetchMealCat);
       setDrinksCategories(fetchDrinkCat);
     }
     fazoFetch();
-  }, []);
+    fetchMeal();
+    fetchDrink();
+  }, [fetchMeal, fetchDrink]);
 
   const tituloPagina = ({ location: { pathname } }) => {
     switch (pathname) {
@@ -91,6 +105,29 @@ function RecipesProvider({ children }) {
   const showSearch = useCallback(() => {
     setSearchBar(!searchBar);
   }, [searchBar]);
+
+  const filterCategory = useCallback(async (event, category, page) => {
+    if (page === 'drinks' && filtroAtivado === category) {
+      setFiltroAtivado('');
+      setsearchByCategory(false);
+      fetchDrink();
+    }
+    if (page === 'drinks' && filtroAtivado !== category) {
+      setFiltroAtivado(event.target.name);
+      setsearchByCategory(true);
+      setDrinksData(await fetchByDrinkCategory(category));
+    }
+    if (page === 'meals' && filtroAtivado === category) {
+      setFiltroAtivado('');
+      setsearchByCategory(false);
+      fetchMeal();
+    }
+    if (page === 'meals' && filtroAtivado !== category) {
+      setFiltroAtivado(event.target.name);
+      setsearchByCategory(true);
+      setMealsData(await fetchByMealCategory(category));
+    }
+  }, [filtroAtivado, fetchDrink, fetchMeal]);
 
   const history = useHistory();
   const submitInfo = useCallback((event) => {
@@ -108,15 +145,20 @@ function RecipesProvider({ children }) {
     drinksData,
     mealsCategories,
     drinksCategories,
+    searchBar,
     useEmail,
     usePassword,
     useSearchString,
     useSearchRadioButton,
     submitInfo,
     tituloPagina,
-    searchBar,
     searchBy,
     showSearch,
+    filterCategory,
+    fetchMeal,
+    fetchDrink,
+    searchByCategory,
+    filtroAtivado,
   }), [email,
     password,
     searchString,
@@ -125,14 +167,19 @@ function RecipesProvider({ children }) {
     drinksData,
     mealsCategories,
     drinksCategories,
+    searchBar,
     useEmail,
     usePassword,
     useSearchString,
     useSearchRadioButton,
     submitInfo,
-    searchBar,
     searchBy,
     showSearch,
+    filterCategory,
+    fetchMeal,
+    fetchDrink,
+    searchByCategory,
+    filtroAtivado,
   ]);
 
   return (

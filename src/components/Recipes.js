@@ -13,13 +13,8 @@ export default function Recipes(props) {
       />
       <Card.Body>
         <Card.Title data-testid={ `${index}-card-name` }>{ tag }</Card.Title>
-        {/* <Button variant="primary">Go somewhere</Button> */}
       </Card.Body>
     </Card>
-    // <div data-testid={ `${index}-recipe-card` }>
-    //   <img data-testid={ `${index}-card-img` } src={ img } alt={ tag } />
-    //   <h1 data-testid={ `${index}-card-name` }>{ tag }</h1>
-    // </div>
   );
 }
 

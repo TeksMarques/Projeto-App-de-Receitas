@@ -9,15 +9,6 @@ const mockDataDrink = ['Ordinary Drink', 'Cocktail', 'Shake', 'Other/Unknown', '
 
 describe('Testes da tela Meals', () => {
   test('Testa se o Header está na rota /meals', () => {
-    const { history } = renderWithRouter(
-      <App />,
-    );
-    act(() => {
-      history.push('/meals');
-    });
-    screen.findByTestId('profile-top-btn');
-  });
-  test('Testa a barra de categorias no /meals', async () => {
     jest.spyOn(global, 'fetch').mockImplementation(async () => ({ json: async () => mockData }));
     const { history } = renderWithRouter(
       <App />,
@@ -25,22 +16,15 @@ describe('Testes da tela Meals', () => {
     act(() => {
       history.push('/meals');
     });
+    screen.findByTestId('profile-top-btn');
     expect(fetch).toHaveBeenCalled();
     waitFor(() => {
       const categories = screen.findAllByRole('button');
       expect(categories.length).toBe(5);
     });
   });
+
   test('Testa se o Header está na rota /drinks', () => {
-    const { history } = renderWithRouter(
-      <App />,
-    );
-    act(() => {
-      history.push('/drinks');
-    });
-    screen.findByTestId('profile-top-btn');
-  });
-  test('Testa a barra de categorias no /drinks', async () => {
     jest.spyOn(global, 'fetch').mockImplementation(async () => ({ json: async () => mockDataDrink }));
     const { history } = renderWithRouter(
       <App />,
@@ -48,10 +32,12 @@ describe('Testes da tela Meals', () => {
     act(() => {
       history.push('/drinks');
     });
+    screen.findByTestId('profile-top-btn');
     expect(fetch).toHaveBeenCalled();
-    // waitFor(() => {
-    //   const categories = screen.findAllByRole('button');
-    //   expect(categories.length).toBe(5);
-    // });
+    waitFor(() => {
+      const categories = screen.findAllByRole('button');
+      expect(categories.length).toBe(5);
+    });
   });
+  
 });

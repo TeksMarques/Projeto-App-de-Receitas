@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import { renderWithRouter } from './renderWith';
@@ -41,7 +41,7 @@ describe('Testes da tela SearchBar', () => {
     userEvent.click(radioIngredientElement);
     userEvent.click(getResultButtonElement);
   });
-  test('Testa pesquisa por nome', () => {
+  test('Testa pesquisa por nome', async () => {
     const { history } = renderWithRouter(
       <App />,
     );
@@ -57,7 +57,11 @@ describe('Testes da tela SearchBar', () => {
 
     userEvent.type(searchBarElement, 'potato');
     userEvent.click(radioNameElement);
+    expect(history.location.pathname).toBe('/meals');
     userEvent.click(getResultButtonElement);
+    waitFor(() => {
+      expect(history.location.pathname).toBe('/meals/52782');
+    }) 
   });
   test('Testando pesquisa por Fisrt letter', async () => {
     const { history } = renderWithRouter(
@@ -73,10 +77,24 @@ describe('Testes da tela SearchBar', () => {
     const radioFirstLetterElement = screen.getByTestId(firstLetterSearchRadio);
     const getResultButtonElement = screen.getByTestId(execSearchButton);
 
+    // userEvent.type(searchBarElement, 'ca');
+    // userEvent.click(radioFirstLetterElement);
+    // userEvent.click(getResultButtonElement);
+    // global.alert = jest.fn();
+    // expect(alert).toHaveBeenCalledTimes(1);
+
     userEvent.type(searchBarElement, 'c');
     userEvent.click(radioFirstLetterElement);
     userEvent.click(getResultButtonElement);
-    await screen.findByTestId('0-recipe-card');
+    waitFor(() => {
+      const primeiroCard = screen.findByTestId('0-recipe-card');
+      expect(primeiroCard).toBeInTheDocument();
+      for (let index = 0; index < 13; index++) {
+        const element = screen.findByTestId(`${index}-recipe-card`);
+        expect(element).toBeInTheDocument();
+      }
+    });
+
 
     // userEvent.type(searchBarElement, 'ca');
     // userEvent.click(radioFirstLetterElement);
