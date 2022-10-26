@@ -64,7 +64,8 @@ main {
   width: 360px;
 }
 
-navbar {
+.navbar {
   background-color: white;
   display: flex;
+  font-size: smaller;
 }
