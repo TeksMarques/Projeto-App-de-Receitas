@@ -38,9 +38,7 @@ export default function Header() {
         { tituloPagina(history) }
       </span>
 
-      <div>
-        { searchBar && <Search /> }
-      </div>
+      { searchBar && <Search /> }
 
     </header>
   );
