@@ -21,4 +21,5 @@ export default function Recipes(props) {
 Recipes.propTypes = {
   img: PropTypes.string,
   tag: PropTypes.string,
+  index: PropTypes.number,
 }.isRequired;

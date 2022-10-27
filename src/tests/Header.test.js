@@ -30,7 +30,7 @@ test('Testa botão de pesquisa no /meals', async () => {
   });
   if (history.location.pathname === '/meals') {
     const profileLink = screen.getByTestId('profile-top-btn');
-    const searchLink = screen.getByRole('button');
+    const searchLink = screen.getByTestId('search-top-btn');
     const searchIcon = screen.getByRole('button', {
       name: /search/i,
     });

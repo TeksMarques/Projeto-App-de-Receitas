@@ -49,9 +49,9 @@ header {
 }
 
 footer {
-  display: flex;
   background-color: white;
   bottom: 0;
+  display: flex;
   position: fixed;
   width: 360px;
 }
