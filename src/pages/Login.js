@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import RecipesContext from '../context/RecipesContext';
 
 export default function Login() {
-  const { email, password, useEmail, usePassword,
+  const { userEmail, password, useEmail, usePassword,
     submitDisabled, submitInfo } = useContext(RecipesContext);
   return (
     <form onSubmit={ submitInfo }>
@@ -13,7 +13,7 @@ export default function Login() {
           type="email"
           placeholder="Digite seu e-mail"
           data-testid="email-input"
-          value={ email }
+          value={ userEmail }
           onChange={ useEmail }
         />
       </label>

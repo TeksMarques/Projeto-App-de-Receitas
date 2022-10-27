@@ -30,7 +30,7 @@ export default function Footer() {
   }, [pathname, path, agoraVerifique]);
 
   return (
-    <footer data-testid="footer">
+    <footer className="footer" data-testid="footer">
       { ((path.includes('/meals/')
       || path.includes('/drinks/'))
       && mostra

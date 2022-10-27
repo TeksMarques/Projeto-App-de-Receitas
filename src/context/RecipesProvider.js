@@ -6,7 +6,7 @@ import { fetchDrinkBy, fetchMealBy, fetchByMealCategory, fetchByDrinkCategory,
   fetchMealCategories, fetchDrinkCategories } from '../services/fetchApi';
 
 function RecipesProvider({ children }) {
-  const [email, setEmail] = useState('');
+  const [userEmail, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitDisabled, setsubmitDisabled] = useState(true);
   const [searchBar, setSearchBar] = useState(false);
@@ -58,12 +58,12 @@ function RecipesProvider({ children }) {
   useEffect(() => {
     const regex = /\S+@\S+\.\S+/;
     const minCaractereLength = 6;
-    if (regex.test(email) && password.length > minCaractereLength) {
+    if (regex.test(userEmail) && password.length > minCaractereLength) {
       setsubmitDisabled(false);
     } else {
       setsubmitDisabled(true);
     }
-  }, [email, password]);
+  }, [userEmail, password]);
 
   const fetchMeal = useCallback(async () => {
     const getMeal = await fetchMealBy(false, false);
@@ -133,11 +133,11 @@ function RecipesProvider({ children }) {
   const submitInfo = useCallback((event) => {
     event.preventDefault();
     history.push('/meals');
-    localStorage.setItem('user', JSON.stringify({ email }));
-  }, [email, history]);
+    localStorage.setItem('user', JSON.stringify({ email: userEmail }));
+  }, [userEmail, history]);
 
   const context = useMemo(() => ({
-    email,
+    userEmail,
     password,
     searchString,
     submitDisabled,
@@ -159,7 +159,7 @@ function RecipesProvider({ children }) {
     fetchDrink,
     searchByCategory,
     filtroAtivado,
-  }), [email,
+  }), [userEmail,
     password,
     searchString,
     submitDisabled,

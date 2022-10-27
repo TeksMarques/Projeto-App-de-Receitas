@@ -5,4 +5,16 @@ const verificaIdNoDoneRecipes = (id) => {
   return (findId);
 };
 
-export default verificaIdNoDoneRecipes;
+const savlvaDadosLocalStorage = () => {
+  const salvaDados = localStorage.setItem('inProgressRecipes', {
+    drinks: {
+      idDaBebida: [listaDeIngredientesUtilizados],
+    },
+    meals: {
+      idDaComida: [listaDeIngredientesUtilizados],
+    },
+  });
+  return salvaDados;
+};
+
+export { verificaIdNoDoneRecipes, savlvaDadosLocalStorage };
