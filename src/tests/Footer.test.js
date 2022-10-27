@@ -30,6 +30,7 @@ describe('Testes da tela Footer - Menu inferior', () => {
       userEvent.click(drinksBtn);
       const location = useLocation();
       expect(location.pathname).toBe('/drinks');
+      expect(fetch).toHaveBeenCalled();
     }
   });
   it('Verifica se é possível ir para a rota /drinks', () => {
@@ -43,6 +44,7 @@ describe('Testes da tela Footer - Menu inferior', () => {
       userEvent.click(mealsBtn);
       const location = useLocation();
       expect(location.pathname).toBe('/meals');
+      expect(fetch).toHaveBeenCalled();
     }
   });
 });

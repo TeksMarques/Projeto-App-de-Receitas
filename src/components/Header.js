@@ -11,35 +11,42 @@ export default function Header() {
   const history = useHistory();
   return (
     <header>
-      <Link to="/profile">
-        <img
-          src={ profileIcon }
-          alt="Profile"
-          data-testid="profile-top-btn"
-        />
-      </Link>
-
-      { ((history.location.pathname === '/meals')
-      || (history.location.pathname === '/drinks'))
-      && (
-        <button
-          type="button"
-          onClick={ showSearch }
-          className="search-top"
-        >
-          <img
-            src={ searchIcon }
-            data-testid="search-top-btn"
-            alt="Search"
-          />
-        </button>)}
-
-      <span data-testid="page-title">
-        { tituloPagina(history) }
-      </span>
-
-      { searchBar && <Search /> }
-
+      <div className="header-icons">
+        <div>
+          Main Group 8
+        </div>
+        <div className="header-profile-search">
+          <Link to="/profile">
+            <img
+              src={ profileIcon }
+              alt="Profile"
+              data-testid="profile-top-btn"
+            />
+          </Link>
+          { ((history.location.pathname === '/meals')
+          || (history.location.pathname === '/drinks'))
+          && (
+            <button
+              type="button"
+              onClick={ showSearch }
+              className="search-top"
+            >
+              <img
+                src={ searchIcon }
+                data-testid="search-top-btn"
+                alt="Search"
+              />
+            </button>)}
+        </div>
+      </div>
+      <div>
+        <h1 data-testid="page-title">
+          { tituloPagina(history) }
+        </h1>
+      </div>
+      <div>
+        { searchBar && <Search /> }
+      </div>
     </header>
   );
 }

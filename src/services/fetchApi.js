@@ -1,52 +1,59 @@
 const fetchMealBy = async (modo, valor) => {
-  let endpoint = '';
+  let endpoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
   if (modo === 'byIngredients') { endpoint = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${valor}`; }
   if (modo === 'byName') { endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?s=${valor}`; }
   if (modo === 'byFirstLetter') { endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?f=${valor}`; }
-  try {
-    const response = await fetch(endpoint);
-    const responseJson = await response.json();
-    console.log(responseJson);
-    return responseJson.meals;
-  } catch (err) {
-    throw new Error(err);
-  }
+  const response = await fetch(endpoint);
+  const responseJson = await response.json();
+  return responseJson.meals;
 };
 
 const fetchDrinkBy = async (modo, valor) => {
-  let endpoint = '';
+  let endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
   if (modo === 'byIngredients') { endpoint = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${valor}`; }
   if (modo === 'byName') { endpoint = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${valor}`; }
   if (modo === 'byFirstLetter') { endpoint = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${valor}`; }
-  try {
-    const response = await fetch(endpoint);
-    const responseJson = await response.json();
-    return responseJson.drinks;
-  } catch (err) {
-    throw new Error(err);
-  }
+  const response = await fetch(endpoint);
+  const responseJson = await response.json();
+  return responseJson.drinks;
 };
 
-const fetchMeals = async () => {
-  const url = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-  try {
-    const response = await fetch(url);
-    const responseJson = await response.json();
-    return responseJson.meals;
-  } catch (err) {
-    throw new Error(err);
-  }
+const fetchMealCategories = async () => {
+  const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+  const responseJson = await response.json();
+  return responseJson.meals;
 };
 
-const fetchDrinks = async () => {
-  const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-  try {
-    const response = await fetch(url);
-    const responseJson = await response.json();
-    return responseJson;
-  } catch (err) {
-    throw new Error(err);
-  }
+const fetchDrinkCategories = async () => {
+  const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+  const responseJson = await response.json();
+  return responseJson.drinks;
 };
 
-export { fetchMealBy, fetchDrinkBy, fetchMeals, fetchDrinks };
+const fetchByMealCategory = async (category) => {
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+  const responseJson = await response.json();
+  return responseJson.meals;
+};
+
+const fetchByDrinkCategory = async (category) => {
+  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`);
+  const responseJson = await response.json();
+  return responseJson.drinks;
+};
+
+const fetchByIdMeal = async (id) => {
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const responseJson = await response.json();
+  return responseJson.meals;
+};
+
+const fetchByIdDrink = async (id) => {
+  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const responseJson = await response.json();
+  return responseJson.drinks;
+};
+
+export { fetchMealBy, fetchDrinkBy, fetchMealCategories,
+  fetchDrinkCategories, fetchByDrinkCategory, fetchByMealCategory, fetchByIdMeal,
+  fetchByIdDrink };
