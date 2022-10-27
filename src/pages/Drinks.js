@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Redirect, Link } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import RecipesContext from '../context/RecipesContext';
@@ -15,24 +16,26 @@ export default function Drinks() {
     <div>
       <Header />
       <div className="navbar">
-        <button
-          type="button"
+        <Button
+          variant="primary"
+          size="sm"
           data-testid="All-category-filter"
           onClick={ fetchDrink }
         >
           All
-        </button>
+        </Button>
         { drinksCategories.filter((cat, i) => i < MAX_CATEGORIES)
           ?.map((cat) => (
-            <button
-              type="button"
+            <Button
               key={ cat.strCategory }
               data-testid={ `${cat.strCategory}-category-filter` }
               onClick={ (event) => filterCategory(event, cat.strCategory, 'drinks') }
               name={ cat.strCategory }
+              variant="primary"
+              size="sm"
             >
               { cat.strCategory }
-            </button>)) }
+            </Button>)) }
       </div>
       <main>
         { drinksData?.length === 1 && !searchByCategory

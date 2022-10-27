@@ -5,12 +5,14 @@
 
 .meals {
   align-items: center;
-  background: #d90368;
+  border: 1px black solid;
   color: #2e294e;
   display: flex;
   flex-direction: column;
   font-family: sans-serif;
   justify-content: center;
+  padding-bottom: 80px;
+  width: 360px;
 }
 
 .meals form {
@@ -48,10 +50,12 @@ header {
   justify-content: space-between;
 }
 
-footer {
+.footer {
+  align-items: center;
   background-color: white;
   bottom: 0;
   display: flex;
+  height: 80px;
   position: fixed;
   width: 360px;
 }
