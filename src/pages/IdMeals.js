@@ -21,11 +21,12 @@ export default function IdMeals(props) {
   return (
     <div>
       { data.length > 0
-      && <RecipesDetails
-        recipe={ data[0] }
-        ehMeal="true"
-        recomendados={ recomendados }
-      /> }
+      && (
+        <RecipesDetails
+          recipe={ data[0] }
+          ehMeal="true"
+          recomendados={ recomendados }
+        />)}
     </div>
   );
 }

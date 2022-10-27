@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
 import Recomendacoes from './Recomendacoes';
+import Footer from './Footer';
 
 function RecipesDetails(props) {
   const [ingredients, setIngredients] = useState([]);
@@ -81,6 +82,7 @@ function RecipesDetails(props) {
         ))}
       </ListGroup>
       <Recomendacoes data={ recomendados } ehMeal={ ehMeal } />
+      <Footer />
     </Card>
   );
 }
