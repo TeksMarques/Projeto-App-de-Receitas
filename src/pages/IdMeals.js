@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import teste from 'prop-types';
 import RecipesDetails from '../components/RecipeDetails';
-import { fetchByIdMeal } from '../services/fetchApi';
+import { fetchByIdMeal, fetchMealBy } from '../services/fetchApi';
 
 export default function IdMeals(props) {
   const [data, setData] = useState([]);
+  const [recomendados, setRecomendados] = useState([]);
   const { match: { params: { id } } } = props;
 
   useEffect(() => {
     const fazOFetch = async () => {
-      const dadoFetchado = await fetchByIdMeal(id);
-      setData(dadoFetchado);
+      const detalhesDaReceita = await fetchByIdMeal(id);
+      const recomendacoes = await fetchMealBy();
+      setData(detalhesDaReceita);
+      setRecomendados(recomendacoes);
     };
     fazOFetch();
   }, [id]);
 
   return (
     <div>
-      { data.length > 0 && <RecipesDetails recipe={ data[0] } ehMeal="true" /> }
+      { data.length > 0
+      && <RecipesDetails
+        recipe={ data[0] }
+        ehMeal="true"
+        recomendados={ recomendados }
+      /> }
     </div>
   );
 }

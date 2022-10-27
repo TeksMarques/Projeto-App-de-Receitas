@@ -3,11 +3,12 @@ import teste from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
+import Recomendacoes from './Recomendacoes';
 
 function RecipesDetails(props) {
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
-  const { ehMeal, recipe, recipe: { strCategory, strInstructions,
+  const { recomendados, ehMeal, recipe, recipe: { strCategory, strInstructions,
     strMeal, strMealThumb, strYoutube, strDrink, strDrinkThumb, strAlcoholic } } = props;
 
   const getIngredients = (recipeItem, str) => {
@@ -79,6 +80,7 @@ function RecipesDetails(props) {
           </ListGroup.Item>
         ))}
       </ListGroup>
+      <Recomendacoes data={ recomendados } ehMeal={ ehMeal } />
     </Card>
   );
 }
