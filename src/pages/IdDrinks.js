@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import teste from 'prop-types';
 import RecipesDetails from '../components/RecipeDetails';
-import { fetchByIdDrink, fetchDrinkBy } from '../services/fetchApi';
+import { fetchByIdDrink, fetchMealBy } from '../services/fetchApi';
 
 export default function IdDrinks(props) {
   const [data, setData] = useState([]);
@@ -11,7 +11,7 @@ export default function IdDrinks(props) {
   useEffect(() => {
     const fazOFetch = async () => {
       const detalhesDaReceita = await fetchByIdDrink(id);
-      const recomendacoes = await fetchDrinkBy();
+      const recomendacoes = await fetchMealBy();
       setData(detalhesDaReceita);
       setRecomendados(recomendacoes);
     };
