@@ -5,7 +5,6 @@
 
 .meals {
   align-items: center;
-  
   color: #2e294e;
   display: flex;
   flex-direction: column;
@@ -45,21 +44,20 @@ header {
 }
 
 .header-profile-search {
-  padding: 10px;
   align-items: flex-end;
   display: flex;
   gap: 15px;
   justify-content: space-between;
+  padding: 10px;
 }
 
 .header-profile-search2 {
-  
-  
   display: flex;
   flex-direction: row;
   gap: 15px;
   justify-content: space-between;
 }
+
 .header-profile-search img {
   color: wheat;
 }
@@ -93,6 +91,6 @@ main {
 }
 
 .titulo-pagina {
-  padding-top: 8px;
   color: wheat;
+  padding-top: 8px;
 }
