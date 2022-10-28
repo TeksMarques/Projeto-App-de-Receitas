@@ -3,14 +3,25 @@ import teste from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
+import { useHistory } from 'react-router-dom';
 import Recomendacoes from './Recomendacoes';
 import Footer from './Footer';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import { saveMealAsFavorite, saveDrinkAsFavorite } from '../services/localStorage';
+
+const copy = require('clipboard-copy');
 
 function RecipesDetails(props) {
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
+  const [showMessage, setShowMessage] = useState(false);
+  const [changeBtn, setChangeBtn] = useState(false);
   const { recomendados, ehMeal, recipe, recipe: { strCategory, strInstructions,
     strMeal, strMealThumb, strYoutube, strDrink, strDrinkThumb, strAlcoholic } } = props;
+
+  const history = useHistory();
 
   const getIngredients = (recipeItem, str) => {
     const result = Object.entries(recipeItem)
@@ -31,6 +42,18 @@ function RecipesDetails(props) {
     setMeasures(mea);
   }, [recipe]);
 
+  const shareRecipe = () => {
+    copy(window.location.href);
+    setShowMessage(true);
+  };
+
+  const favoriteRecipe = () => {
+    const { location: { pathname } } = history;
+    if (pathname.includes('meal')) saveMealAsFavorite(recipe);
+    else saveDrinkAsFavorite(recipe);
+    setChangeBtn(true);
+  };
+
   return (
     <Card style={ { width: '360px' } }>
       <Card.Img
@@ -47,7 +70,29 @@ function RecipesDetails(props) {
           { strCategory }
           { ' ' }
           { strAlcoholic }
+          { ' ' }
+          <button
+            type="button"
+            data-testid="share-btn"
+            className="search-top"
+            onClick={ shareRecipe }
+          >
+            <img src={ shareIcon } alt="shareIcon" />
+          </button>
+
+          <button
+            type="button"
+            data-testid="favorite-btn"
+            className="search-top"
+            onClick={ favoriteRecipe }
+          >
+            {changeBtn ? <img src={ blackHeartIcon } alt="whiteHeartIcon" />
+              : <img src={ whiteHeartIcon } alt="whiteHeartIcon" />}
+          </button>
+
         </Card.Text>
+        {showMessage && <Card.Text>Link copied!</Card.Text>}
+
         <Card.Text data-testid="instructions">
           { strInstructions }
         </Card.Text>

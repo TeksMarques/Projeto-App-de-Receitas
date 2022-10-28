@@ -93,6 +93,7 @@ main {
 .titulo-pagina {
   color: wheat;
   padding-top: 8px;
+
 }
 
 .entrar-button {
@@ -104,4 +105,4 @@ main {
 .search-input {
   margin: 3px;
   padding: 1px;
-}
+
