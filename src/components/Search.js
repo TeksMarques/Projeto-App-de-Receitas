@@ -1,4 +1,6 @@
 import React, { useContext } from 'react';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 
@@ -8,7 +10,7 @@ export default function Search() {
   const { location: { pathname } } = useHistory();
   const estouEm = pathname;
   return (
-    <form>
+    <Form>
       <label htmlFor="search-input">
         <input
           id="search-input"
@@ -20,48 +22,82 @@ export default function Search() {
           value={ searchString }
         />
       </label>
-      <fieldset>
-        <label htmlFor="ingredients">
-          <input
-            type="radio"
-            id="ingredients"
-            name="searchFor"
-            value="byIngredients"
-            data-testid="ingredient-search-radio"
-            onClick={ useSearchRadioButton }
-          />
-          Ingrediente
-        </label>
-        <label htmlFor="name">
-          <input
-            type="radio"
-            id="name"
-            name="searchFor"
-            value="byName"
-            data-testid="name-search-radio"
-            onClick={ useSearchRadioButton }
-          />
-          Nome
-        </label>
-        <label htmlFor="firstletter">
-          <input
-            type="radio"
-            id="firstletter"
-            name="searchFor"
-            value="byFirstLetter"
-            data-testid="first-letter-search-radio"
-            onClick={ useSearchRadioButton }
-          />
-          First letter
-        </label>
-      </fieldset>
-      <button
+      <Button
+        variant="primary"
+        size="sm"
         type="button"
         data-testid="exec-search-btn"
         onClick={ () => searchBy(estouEm) }
       >
         Pesquisar
-      </button>
-    </form>
+      </Button>
+      <div className="mb-2">
+        <Form.Check
+          inline
+          type="radio"
+          id="ingredients"
+          name="searchFor"
+          value="byIngredients"
+          data-testid="ingredient-search-radio"
+          onClick={ useSearchRadioButton }
+          label="Ingrediente"
+        />
+        <Form.Check
+          inline
+          type="radio"
+          id="name"
+          name="searchFor"
+          value="byName"
+          data-testid="name-search-radio"
+          onClick={ useSearchRadioButton }
+          label="Nome"
+        />
+        <Form.Check
+          inline
+          type="radio"
+          id="firstletter"
+          name="searchFor"
+          value="byFirstLetter"
+          data-testid="first-letter-search-radio"
+          onClick={ useSearchRadioButton }
+          label="Inicial"
+        />
+      </div>
+      { /* <fieldset>
+              <label htmlFor="ingredients">
+                <input
+                  type="radio"
+                  id="ingredients"
+                  name="searchFor"
+                  value="byIngredients"
+                  data-testid="ingredient-search-radio"
+                  onClick={ useSearchRadioButton }
+                />
+                Ingrediente
+              </label>
+              <label htmlFor="name">
+                <input
+                  type="radio"
+                  id="name"
+                  name="searchFor"
+                  value="byName"
+                  data-testid="name-search-radio"
+                  onClick={ useSearchRadioButton }
+                />
+                Nome
+              </label>
+              <label htmlFor="firstletter">
+                <input
+                  type="radio"
+                  id="firstletter"
+                  name="searchFor"
+                  value="byFirstLetter"
+                  data-testid="first-letter-search-radio"
+                  onClick={ useSearchRadioButton }
+                />
+                First letter
+              </label>
+            </fieldset> */ }
+    </Form>
   );
 }

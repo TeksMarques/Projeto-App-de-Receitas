@@ -4,6 +4,7 @@ import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import RecipesContext from '../context/RecipesContext';
 import Search from './Search';
+import logo from '../img/T_DoceLogo.png';
 
 export default function Header() {
   const { tituloPagina, searchBar, showSearch,
@@ -14,8 +15,10 @@ export default function Header() {
     <header>
       <div className="header-icons">
         <div>
-          Main Group 8
+          <img className="imglogo-header" src={ logo } alt="Logo" />
         </div>
+      </div>
+      <div className="header-profile-search2">
         <div className="header-profile-search">
           <button
             type="button"
@@ -43,13 +46,12 @@ export default function Header() {
               />
             </button>)}
         </div>
-      </div>
-      <div>
-        <h1 data-testid="page-title">
+        <h1 className="titulo-pagina" data-testid="page-title">
           { tituloPagina(history) }
         </h1>
       </div>
       <div>
+
         { searchBar && <Search /> }
       </div>
     </header>

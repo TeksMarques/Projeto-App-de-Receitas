@@ -5,7 +5,7 @@
 
 .meals {
   align-items: center;
-  border: 1px black solid;
+  
   color: #2e294e;
   display: flex;
   flex-direction: column;
@@ -27,7 +27,7 @@
 
 header {
   align-items: center;
-  background-color: #ffd400;
+  background-color: #c34800;
   display: flex;
   flex-flow: column wrap;
   gap: 5px;
@@ -35,19 +35,33 @@ header {
 }
 
 .header-icons {
-  background-color: #820263;
+  background-color: #f6a17a;
   color: #eadeda;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   padding: 10px;
   width: 100%;
 }
 
 .header-profile-search {
+  padding: 10px;
   align-items: flex-end;
   display: flex;
   gap: 15px;
   justify-content: space-between;
+}
+
+.header-profile-search2 {
+  
+  
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  justify-content: space-between;
+}
+.header-profile-search img {
+  color: wheat;
 }
 
 .footer {
@@ -72,4 +86,13 @@ main {
   background-color: white;
   display: flex;
   font-size: smaller;
+}
+
+.imglogo {
+  padding: 20px;
+}
+
+.titulo-pagina {
+  padding-top: 8px;
+  color: wheat;
 }
