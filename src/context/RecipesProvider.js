@@ -18,6 +18,7 @@ function RecipesProvider({ children }) {
   const [drinksCategories, setDrinksCategories] = useState([]);
   const [searchByCategory, setsearchByCategory] = useState(false);
   const [filtroAtivado, setFiltroAtivado] = useState('');
+  const history = useHistory();
 
   const useEmail = useCallback(({ target: { value } }) => {
     setEmail(value);
@@ -106,6 +107,10 @@ function RecipesProvider({ children }) {
     setSearchBar(!searchBar);
   }, [searchBar]);
 
+  const redirectToProfile = useCallback(() => {
+    history.push('/profile');
+  }, [history]);
+
   const filterCategory = useCallback(async (event, category, page) => {
     if (page === 'drinks' && filtroAtivado === category) {
       setFiltroAtivado('');
@@ -129,7 +134,6 @@ function RecipesProvider({ children }) {
     }
   }, [filtroAtivado, fetchDrink, fetchMeal]);
 
-  const history = useHistory();
   const submitInfo = useCallback((event) => {
     event.preventDefault();
     history.push('/meals');
@@ -157,6 +161,7 @@ function RecipesProvider({ children }) {
     filterCategory,
     fetchMeal,
     fetchDrink,
+    redirectToProfile,
     searchByCategory,
     filtroAtivado,
   }), [userEmail,
@@ -178,6 +183,7 @@ function RecipesProvider({ children }) {
     filterCategory,
     fetchMeal,
     fetchDrink,
+    redirectToProfile,
     searchByCategory,
     filtroAtivado,
   ]);
