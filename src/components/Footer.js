@@ -7,26 +7,30 @@ import verificaIdNoDoneRecipes from '../services/localStorage';
 
 export default function Footer() {
   const [path, setPath] = useState('');
-  const [id, setId] = useState('');
   const [mostra, setMostra] = useState(true);
-  const INDEX_ID = 7;
+  const INDEX_MEAL_ID = 7;
+  const INDEX_DRINK_ID = 8;
 
   const { location: { pathname } } = useHistory();
 
-  const agoraVerifique = useCallback(async () => {
-    const receitaDone = await verificaIdNoDoneRecipes(id);
-    if (+(receitaDone.id) === +(id)) setMostra(false);
-    else setMostra(true);
-  }, [id]);
+  const agoraVerifique = useCallback(async (sohId) => {
+    const receitaDone = await verificaIdNoDoneRecipes(sohId);
+    if (receitaDone !== undefined) {
+      if (+(receitaDone.id) === +(sohId)) setMostra(false);
+      else setMostra(true);
+    }
+  }, []);
 
   useEffect(() => {
     setPath(pathname);
-    setId(path.slice(INDEX_ID));
-    agoraVerifique();
+    let newId = '';
+    if (pathname.includes('/meal')) newId = pathname.slice(INDEX_MEAL_ID);
+    else newId = pathname.slice(INDEX_DRINK_ID);
+    agoraVerifique(newId);
   }, [pathname, path, agoraVerifique]);
 
   return (
-    <footer data-testid="footer">
+    <footer className="footer" data-testid="footer">
       { ((path.includes('/meals/')
       || path.includes('/drinks/'))
       && mostra

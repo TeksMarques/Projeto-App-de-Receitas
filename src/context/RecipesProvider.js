@@ -6,7 +6,7 @@ import { fetchDrinkBy, fetchMealBy, fetchByMealCategory, fetchByDrinkCategory,
   fetchMealCategories, fetchDrinkCategories } from '../services/fetchApi';
 
 function RecipesProvider({ children }) {
-  const [email, setEmail] = useState('');
+  const [userEmail, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [submitDisabled, setsubmitDisabled] = useState(true);
   const [searchBar, setSearchBar] = useState(false);
@@ -18,6 +18,7 @@ function RecipesProvider({ children }) {
   const [drinksCategories, setDrinksCategories] = useState([]);
   const [searchByCategory, setsearchByCategory] = useState(false);
   const [filtroAtivado, setFiltroAtivado] = useState('');
+  const history = useHistory();
 
   const useEmail = useCallback(({ target: { value } }) => {
     setEmail(value);
@@ -58,12 +59,12 @@ function RecipesProvider({ children }) {
   useEffect(() => {
     const regex = /\S+@\S+\.\S+/;
     const minCaractereLength = 6;
-    if (regex.test(email) && password.length > minCaractereLength) {
+    if (regex.test(userEmail) && password.length > minCaractereLength) {
       setsubmitDisabled(false);
     } else {
       setsubmitDisabled(true);
     }
-  }, [email, password]);
+  }, [userEmail, password]);
 
   const fetchMeal = useCallback(async () => {
     const getMeal = await fetchMealBy(false, false);
@@ -106,6 +107,10 @@ function RecipesProvider({ children }) {
     setSearchBar(!searchBar);
   }, [searchBar]);
 
+  const redirectToProfile = useCallback(() => {
+    history.push('/profile');
+  }, [history]);
+
   const filterCategory = useCallback(async (event, category, page) => {
     if (page === 'drinks' && filtroAtivado === category) {
       setFiltroAtivado('');
@@ -129,15 +134,14 @@ function RecipesProvider({ children }) {
     }
   }, [filtroAtivado, fetchDrink, fetchMeal]);
 
-  const history = useHistory();
   const submitInfo = useCallback((event) => {
     event.preventDefault();
     history.push('/meals');
-    localStorage.setItem('user', JSON.stringify({ email }));
-  }, [email, history]);
+    localStorage.setItem('user', JSON.stringify({ email: userEmail }));
+  }, [userEmail, history]);
 
   const context = useMemo(() => ({
-    email,
+    userEmail,
     password,
     searchString,
     submitDisabled,
@@ -157,9 +161,10 @@ function RecipesProvider({ children }) {
     filterCategory,
     fetchMeal,
     fetchDrink,
+    redirectToProfile,
     searchByCategory,
     filtroAtivado,
-  }), [email,
+  }), [userEmail,
     password,
     searchString,
     submitDisabled,
@@ -178,6 +183,7 @@ function RecipesProvider({ children }) {
     filterCategory,
     fetchMeal,
     fetchDrink,
+    redirectToProfile,
     searchByCategory,
     filtroAtivado,
   ]);
