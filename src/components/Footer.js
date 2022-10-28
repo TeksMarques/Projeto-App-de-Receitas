@@ -7,9 +7,8 @@ import { verificaAndamentoDaReceita } from '../services/localStorage';
 
 export default function Footer() {
   const [path, setPath] = useState('');
-  const [continueButton, setcontinueButton] = useState(true);
+  const [continueButton, setContinueButton] = useState(false);
   const [apenasId, setApenasId] = useState(0);
-  const [mealOrDrink, setMealOrDrink] = useState('');
   const INDEX_MEAL_ID = 7;
   const INDEX_DRINK_ID = 8;
 
@@ -28,11 +27,12 @@ export default function Footer() {
 
   const startRecipe = useCallback(() => {
     verificaAndamentoDaReceita(path, apenasId);
+    setContinueButton(true);
     // 3. Salva no localstorage na chave correspondente
 
     // const receitaInProgress = verificaIdNoInProgressRecipes(apenasId);
     // if (receitaInProgress !== undefined) {
-    //   setcontinueButton(false);
+    //   setContinueButton(false);
     //   history.push(`${path}/in-progress`);
     // } else {
     //   console.log('continua botão de start -lógica a desenvolver');
@@ -42,8 +42,8 @@ export default function Footer() {
   // const verifyInProgressToDone = useCallback((sohId) => {
   //   const receitaDone = verificaIdNoDoneRecipes(sohId);
   //   if (receitaDone !== undefined) {
-  //     if (+(receitaDone.id) === +(sohId)) setcontinueButton(false);
-  //     else setcontinueButton(true);
+  //     if (+(receitaDone.id) === +(sohId)) setContinueButton(false);
+  //     else setContinueButton(true);
   //   }
   // }, []);
 
@@ -61,7 +61,7 @@ export default function Footer() {
               className="fixed-bottom"
               onClick={ startRecipe }
             >
-              { continueButton ? 'Start Recipe' : 'Continue Recipe' }
+              { continueButton ? 'Continue Recipe' : 'Start Recipe' }
             </Button>
           </div>
         ) }

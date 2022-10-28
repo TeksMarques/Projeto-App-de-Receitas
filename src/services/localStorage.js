@@ -19,6 +19,20 @@ const saveMealInProgress = (id, inprogresskey) => {
   console.log('salvou no localStorage:', mockData);
 };
 
+const saveDrinkInProgress = (id, inprogresskey) => {
+  const mockData = {
+    meals: {
+      ...inprogresskey.meals,
+    },
+    drinks: {
+      ...inprogresskey.drinks,
+      [id]: [],
+    },
+  };
+  localStorage.setItem('inProgressRecipes', JSON.stringify(mockData));
+  console.log('salvou no localStorage:', mockData);
+};
+
 const verificaAndamentoDaReceita = (path, id) => {
   console.log('o path é', path);
   console.log('o id é', id);
@@ -29,10 +43,16 @@ const verificaAndamentoDaReceita = (path, id) => {
     if (mealKeys.find((ci) => ci === id) === undefined) {
       saveMealInProgress(id, parseado);
     } else {
-      console.log('Receita encontrada no in progress');
+      console.log('encontrou MEAL no in Progress');
     }
   } else {
-    console.log('estou no drinks');
+    const drinkKeys = Object.keys(parseado.drinks);
+    if (drinkKeys.find((ci) => ci === id) === undefined) {
+      saveDrinkInProgress(id, parseado);
+    } else {
+      console.log('encontrou DRINK no in Progress');
+    }
+    return true;
   }
 };
 
