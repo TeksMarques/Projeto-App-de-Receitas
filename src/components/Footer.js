@@ -3,37 +3,41 @@ import { Link, useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
-import verificaIdNoDoneRecipes from '../services/localStorage';
+import { verificaAndamentoDaReceitaESalva,
+  verificaAndamentoDaReceita } from '../services/localStorage';
 
 export default function Footer() {
   const [path, setPath] = useState('');
-  const [mostra, setMostra] = useState(true);
+  const [continueButton, setContinueButton] = useState(false);
+  const [apenasId, setApenasId] = useState(0);
   const INDEX_MEAL_ID = 7;
   const INDEX_DRINK_ID = 8;
 
-  const { location: { pathname } } = useHistory();
-
-  const agoraVerifique = useCallback(async (sohId) => {
-    const receitaDone = await verificaIdNoDoneRecipes(sohId);
-    if (receitaDone !== undefined) {
-      if (+(receitaDone.id) === +(sohId)) setMostra(false);
-      else setMostra(true);
-    }
-  }, []);
+  const history = useHistory();
+  const { location: { pathname } } = history;
 
   useEffect(() => {
     setPath(pathname);
     let newId = '';
     if (pathname.includes('/meal')) newId = pathname.slice(INDEX_MEAL_ID);
     else newId = pathname.slice(INDEX_DRINK_ID);
-    agoraVerifique(newId);
-  }, [pathname, path, agoraVerifique]);
+    setApenasId(newId);
+    if (verificaAndamentoDaReceita(path, apenasId)) {
+      setContinueButton(true);
+      history.push(`${path}/in-progress`);
+    }
+  }, [pathname, path, apenasId, history]);
+
+  const startRecipe = useCallback(() => {
+    verificaAndamentoDaReceitaESalva(path, apenasId);
+    setContinueButton(true);
+    history.push(`${path}/in-progress`);
+  }, [path, apenasId, history]);
 
   return (
     <footer className="footer" data-testid="footer">
       { ((path.includes('/meals/')
       || path.includes('/drinks/'))
-      && mostra
       )
         && (
           <div className="d-grid gap-2">
@@ -42,23 +46,9 @@ export default function Footer() {
               size="lg"
               data-testid="start-recipe-btn"
               className="fixed-bottom"
+              onClick={ startRecipe }
             >
-              Start Recipe
-            </Button>
-          </div>
-        ) }
-      { ((path.includes('/meals/')
-      || path.includes('/drinks/'))
-      && !mostra
-      )
-        && (
-          <div className="d-grid gap-2">
-            <Button
-              variant="secondary"
-              size="lg"
-              className="fixed-bottom"
-            >
-              Continue Recipe
+              { continueButton ? 'Continue Recipe' : 'Start Recipe' }
             </Button>
           </div>
         ) }
