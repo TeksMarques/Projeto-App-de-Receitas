@@ -3,21 +3,34 @@ import { Link, useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
-import verificaIdNoDoneRecipes from '../services/localStorage';
+import { verificaIdNoDoneRecipes,
+  verificaIdNoInProgressRecipes } from '../services/localStorage';
 
 export default function Footer() {
   const [path, setPath] = useState('');
-  const [mostra, setMostra] = useState(true);
+  const [continueButton, setcontinueButton] = useState(true);
+  const [apenasId, setApenasId] = useState(0);
   const INDEX_MEAL_ID = 7;
   const INDEX_DRINK_ID = 8;
 
-  const { location: { pathname } } = useHistory();
+  const history = useHistory();
+  const { location: { pathname } } = history;
 
-  const agoraVerifique = useCallback(async (sohId) => {
-    const receitaDone = await verificaIdNoDoneRecipes(sohId);
+  const startRecipe = useCallback(() => {
+    const receitaInProgress = verificaIdNoInProgressRecipes(apenasId);
+    if (receitaInProgress !== undefined) {
+      setcontinueButton(false);
+      history.push(`${path}/in-progress`);
+    } else {
+      console.log('continua botão de start -lógica a desenvolver');
+    }
+  }, [apenasId, path, history]);
+
+  const verifyInProgressToDone = useCallback((sohId) => {
+    const receitaDone = verificaIdNoDoneRecipes(sohId);
     if (receitaDone !== undefined) {
-      if (+(receitaDone.id) === +(sohId)) setMostra(false);
-      else setMostra(true);
+      if (+(receitaDone.id) === +(sohId)) setcontinueButton(false);
+      else setcontinueButton(true);
     }
   }, []);
 
@@ -26,14 +39,15 @@ export default function Footer() {
     let newId = '';
     if (pathname.includes('/meal')) newId = pathname.slice(INDEX_MEAL_ID);
     else newId = pathname.slice(INDEX_DRINK_ID);
-    agoraVerifique(newId);
-  }, [pathname, path, agoraVerifique]);
+    setApenasId(newId);
+    // startRecipe(newId);
+    // verifyInProgressToDone(newId);
+  }, [pathname, path, apenasId, verifyInProgressToDone, startRecipe]);
 
   return (
     <footer className="footer" data-testid="footer">
       { ((path.includes('/meals/')
       || path.includes('/drinks/'))
-      && mostra
       )
         && (
           <div className="d-grid gap-2">
@@ -42,23 +56,9 @@ export default function Footer() {
               size="lg"
               data-testid="start-recipe-btn"
               className="fixed-bottom"
+              onClick={ startRecipe }
             >
-              Start Recipe
-            </Button>
-          </div>
-        ) }
-      { ((path.includes('/meals/')
-      || path.includes('/drinks/'))
-      && !mostra
-      )
-        && (
-          <div className="d-grid gap-2">
-            <Button
-              variant="secondary"
-              size="lg"
-              className="fixed-bottom"
-            >
-              Continue Recipe
+              { continueButton ? 'Start Recipe' : 'Continue Recipe' }
             </Button>
           </div>
         ) }
