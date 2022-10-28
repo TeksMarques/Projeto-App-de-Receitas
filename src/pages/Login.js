@@ -36,8 +36,8 @@ export default function Login() {
         />
       </Form.Group>
       <Button
-        size="sm"
-        variant="primary"
+        className="entrar-button"
+        variant="success"
         type="submit"
         data-testid="login-submit-btn"
         disabled={ submitDisabled }

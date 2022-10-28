@@ -11,26 +11,30 @@ export default function Search() {
   const estouEm = pathname;
   return (
     <Form>
-      <label htmlFor="search-input">
-        <input
-          id="search-input"
-          name="search-input"
-          data-testid="search-input"
-          type="text"
-          placeholder="Pesquise por receitas"
-          onChange={ useSearchString }
-          value={ searchString }
-        />
-      </label>
-      <Button
-        variant="primary"
-        size="sm"
-        type="button"
-        data-testid="exec-search-btn"
-        onClick={ () => searchBy(estouEm) }
-      >
-        Pesquisar
-      </Button>
+      <div className="search-container">
+        <label htmlFor="search-input">
+          <input
+            className="search-input"
+            id="search-input"
+            name="search-input"
+            data-testid="search-input"
+            type="text"
+            placeholder="Pesquise por receitas"
+            onChange={ useSearchString }
+            value={ searchString }
+          />
+        </label>
+        <Button
+          className="entrar-button"
+          variant="success"
+          size="sm"
+          type="button"
+          data-testid="exec-search-btn"
+          onClick={ () => searchBy(estouEm) }
+        >
+          Pesquisar
+        </Button>
+      </div>
       <div className="mb-2">
         <Form.Check
           inline
