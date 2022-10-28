@@ -17,7 +17,7 @@ export default function Meals() {
       <Header />
       <div className="navbar">
         <Button
-          variant="primary"
+          variant="success"
           size="sm"
           data-testid="All-category-filter"
           onClick={ fetchMeal }
@@ -27,7 +27,7 @@ export default function Meals() {
         { mealsCategories?.filter((cat, i) => i < MAX_CATEGORIES)
           ?.map((cat) => (
             <Button
-              variant="primary"
+              variant="success"
               size="sm"
               key={ cat.strCategory }
               data-testid={ `${cat.strCategory}-category-filter` }

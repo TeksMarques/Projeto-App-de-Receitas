@@ -26,7 +26,7 @@
 
 header {
   align-items: center;
-  background-color: #c34800;
+  background-color: #db5b11;
   display: flex;
   flex-flow: column wrap;
   gap: 5px;
@@ -64,10 +64,10 @@ header {
 
 .footer {
   align-items: center;
-  background-color: white;
+  background-color: #f6a17a;
   bottom: 0;
   display: flex;
-  height: 80px;
+  height: 55px;
   position: fixed;
   width: 360px;
 }
@@ -93,4 +93,16 @@ main {
 .titulo-pagina {
   color: wheat;
   padding-top: 8px;
+
 }
+
+.entrar-button {
+  align-self: center;
+  max-width: 80%;
+
+}
+
+.search-input {
+  margin: 3px;
+  padding: 1px;
+
