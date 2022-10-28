@@ -36,6 +36,7 @@ export default function Login() {
         />
       </Form.Group>
       <Button
+        size="sm"
         variant="primary"
         type="submit"
         data-testid="login-submit-btn"

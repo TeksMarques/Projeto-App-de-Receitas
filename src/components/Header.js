@@ -17,6 +17,8 @@ export default function Header() {
         <div>
           <img className="imglogo-header" src={ logo } alt="Logo" />
         </div>
+      </div>
+      <div className="header-profile-search2">
         <div className="header-profile-search">
           <button
             type="button"
@@ -44,13 +46,12 @@ export default function Header() {
               />
             </button>)}
         </div>
-      </div>
-      <div>
-        <h1 data-testid="page-title">
+        <h1 className="titulo-pagina" data-testid="page-title">
           { tituloPagina(history) }
         </h1>
       </div>
       <div>
+
         { searchBar && <Search /> }
       </div>
     </header>
