@@ -3,7 +3,8 @@ import { Link, useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
-import { verificaAndamentoDaReceita } from '../services/localStorage';
+import { verificaAndamentoDaReceitaESalva,
+  verificaAndamentoDaReceita } from '../services/localStorage';
 
 export default function Footer() {
   const [path, setPath] = useState('');
@@ -21,31 +22,13 @@ export default function Footer() {
     if (pathname.includes('/meal')) newId = pathname.slice(INDEX_MEAL_ID);
     else newId = pathname.slice(INDEX_DRINK_ID);
     setApenasId(newId);
-    // startRecipe(newId);
-    // verifyInProgressToDone(newId);
+    if (verificaAndamentoDaReceita(path, apenasId)) { setContinueButton(true); }
   }, [pathname, path, apenasId]);
 
   const startRecipe = useCallback(() => {
-    verificaAndamentoDaReceita(path, apenasId);
+    verificaAndamentoDaReceitaESalva(path, apenasId);
     setContinueButton(true);
-    // 3. Salva no localstorage na chave correspondente
-
-    // const receitaInProgress = verificaIdNoInProgressRecipes(apenasId);
-    // if (receitaInProgress !== undefined) {
-    //   setContinueButton(false);
-    //   history.push(`${path}/in-progress`);
-    // } else {
-    //   console.log('continua botão de start -lógica a desenvolver');
-    // }
   }, [path, apenasId]);
-
-  // const verifyInProgressToDone = useCallback((sohId) => {
-  //   const receitaDone = verificaIdNoDoneRecipes(sohId);
-  //   if (receitaDone !== undefined) {
-  //     if (+(receitaDone.id) === +(sohId)) setContinueButton(false);
-  //     else setContinueButton(true);
-  //   }
-  // }, []);
 
   return (
     <footer className="footer" data-testid="footer">
