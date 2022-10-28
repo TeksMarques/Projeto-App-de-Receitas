@@ -67,5 +67,39 @@ const verificaAndamentoDaReceita = (path, id) => {
   }
 };
 
+const saveMealAsFavorite = (data) => {
+  const getLocal = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+  const mockData = [
+    ...getLocal,
+    {
+      id: data.idMeal,
+      type: 'meal',
+      nationality: data.strArea,
+      category: data.strCategory,
+      alcoholicOrNot: '',
+      name: data.strMeal,
+      image: data.strMealThumb,
+    }];
+  localStorage.setItem('favoriteRecipes', JSON.stringify(mockData));
+  console.log('salvou no favoriteRecipes:', mockData);
+};
+
+const saveDrinkAsFavorite = (data) => {
+  const getLocal = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+  const mockData = [
+    ...getLocal,
+    {
+      id: data.idDrink,
+      type: 'drink',
+      nationality: '',
+      category: data.strCategory,
+      alcoholicOrNot: data.strAlcoholic,
+      name: data.strDrink,
+      image: data.strDrinkThumb,
+    }];
+  localStorage.setItem('favoriteRecipes', JSON.stringify(mockData));
+  console.log('salvou no favoriteRecipes:', mockData);
+};
+
 export { verificaIdNoDoneRecipes, verificaAndamentoDaReceitaESalva,
-  verificaAndamentoDaReceita };
+  verificaAndamentoDaReceita, saveMealAsFavorite, saveDrinkAsFavorite };
