@@ -27,7 +27,7 @@
 
 header {
   align-items: center;
-  background-color: #ffd400;
+  background-color: #e6914c9f;
   display: flex;
   flex-flow: column wrap;
   gap: 5px;
@@ -35,19 +35,25 @@ header {
 }
 
 .header-icons {
-  background-color: #820263;
+  background-color: #822b02;
   color: #eadeda;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   padding: 10px;
   width: 100%;
 }
 
 .header-profile-search {
+  padding: 10px;
   align-items: flex-end;
   display: flex;
   gap: 15px;
   justify-content: space-between;
+}
+
+.header-profile-search img {
+  color: wheat;
 }
 
 .footer {
@@ -73,3 +79,9 @@ main {
   display: flex;
   font-size: smaller;
 }
+
+.imglogo {
+  padding: 20px;
+}
+
+
