@@ -5,49 +5,80 @@ const verificaIdNoDoneRecipes = (id) => {
   return (findId);
 };
 
-const informRecipeInProgress = (obj, id) => {
-  const chavesDoMeal = Object.keys(obj.meals);
-  const chavesDoDrink = Object.keys(obj.drinks);
-  const findMeal = chavesDoMeal?.find((c) => c === id);
-  const findDrink = chavesDoDrink?.find((c) => c === id);
-  if (findMeal) {
-    console.log('Encontrei chave meal', findMeal);
-    return findMeal;
-  }
-  if (findDrink) {
-    console.log('Encontrei chave drink', findDrink);
-    return findDrink;
-  }
-  console.log('Não encontrei nenhuma chave');
-  return undefined;
-};
-
-// FUNÇÃO APENAS PARA PASSAR NO REQUISITO 30 - APAGAR ASSIM QUE ENTRAR NAS 40 E POUCOS
-const saveInProgressToLocal = (id, prev) => {
+const saveMealInProgress = (id, inprogresskey) => {
   const mockData = {
     meals: {
-      ...prev.meals,
+      ...inprogresskey.meals,
       [id]: [],
     },
     drinks: {
-      ...prev.drinks,
-      [id]: [],
+      ...inprogresskey.drinks,
     },
   };
   localStorage.setItem('inProgressRecipes', JSON.stringify(mockData));
-  console.log('Salvei no localStorage:', mockData);
+  console.log('salvou no localStorage:', mockData);
 };
 
-const verificaIdNoInProgressRecipes = (id) => {
-  const inProgress = localStorage.getItem('inProgressRecipes');
-  const inProgressParseado = JSON.parse(inProgress) || { meals: {}, drinks: {} };
-  const jaExiste = informRecipeInProgress(inProgressParseado, id);
-  if (jaExiste !== undefined) {
-    console.log('Já existe');
-    return jaExiste;
+const verificaAndamentoDaReceita = (path, id) => {
+  console.log('o path é', path);
+  console.log('o id é', id);
+  const p = localStorage.getItem('inProgressRecipes');
+  const parseado = JSON.parse(p) || { meals: {}, drinks: {} };
+  if (path.includes('meal')) {
+    const mealKeys = Object.keys(parseado.meals);
+    if (mealKeys.find((ci) => ci === id) === undefined) {
+      saveMealInProgress(id, parseado);
+    } else {
+      console.log('Receita encontrada no in progress');
+    }
+  } else {
+    console.log('estou no drinks');
   }
-  saveInProgressToLocal(id, inProgressParseado);
 };
+
+// const informRecipeInProgress = (obj, id) => {
+//   const chavesDoMeal = Object.keys(obj.meals);
+//   const chavesDoDrink = Object.keys(obj.drinks);
+//   const findMeal = chavesDoMeal?.find((c) => c === id);
+//   const findDrink = chavesDoDrink?.find((c) => c === id);
+//   if (findMeal) {
+//     console.log('Encontrei chave meal', findMeal);
+//     return findMeal;
+//   }
+//   if (findDrink) {
+//     console.log('Encontrei chave drink', findDrink);
+//     return findDrink;
+//   }
+//   console.log('Não encontrei nenhuma chave');
+//   return undefined;
+// };
+
+// // FUNÇÃO APENAS PARA PASSAR NO REQUISITO 30 - APAGAR ASSIM QUE ENTRAR NAS 40 E POUCOS
+// const saveInProgressToLocal = (id, prev) => {
+//   const mockData = {
+//     meals: {
+//       ...prev.meals,
+//       [id]: [],
+//     },
+//     drinks: {
+//       ...prev.drinks,
+//       [id]: [],
+//     },
+//   };
+//   localStorage.setItem('inProgressRecipes', JSON.stringify(mockData));
+//   console.log('Salvei no localStorage:', mockData);
+// };
+
+// const verificaIdNoInProgressRecipes = (id) => {
+//   const inProgress = localStorage.getItem('inProgressRecipes');
+//   const inProgressParseado = JSON.parse(inProgress) || { meals: {}, drinks: {} };
+//   const jaExiste = informRecipeInProgress(inProgressParseado, id);
+//   if (jaExiste !== undefined) {
+//     console.log('Já existe');
+//     return jaExiste;
+//   }
+//   saveInProgressToLocal(id, inProgressParseado);
+// };
 
 /* const saveMealInProgress = (dataMeal) => {
   const pegaDoLocal = localStorage.getItem('inProgressRecipes') || '{}';
@@ -65,4 +96,4 @@ const verificaIdNoInProgressRecipes = (id) => {
   const verificaIdDrink = idDrinks.find((drinksIds) => drinksIds === data.id);
 }; */
 
-export { verificaIdNoDoneRecipes, verificaIdNoInProgressRecipes };
+export { verificaIdNoDoneRecipes, verificaAndamentoDaReceita };
