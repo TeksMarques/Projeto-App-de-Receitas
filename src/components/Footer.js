@@ -22,13 +22,17 @@ export default function Footer() {
     if (pathname.includes('/meal')) newId = pathname.slice(INDEX_MEAL_ID);
     else newId = pathname.slice(INDEX_DRINK_ID);
     setApenasId(newId);
-    if (verificaAndamentoDaReceita(path, apenasId)) { setContinueButton(true); }
-  }, [pathname, path, apenasId]);
+    if (verificaAndamentoDaReceita(path, apenasId)) {
+      setContinueButton(true);
+      history.push(`${path}/in-progress`);
+    }
+  }, [pathname, path, apenasId, history]);
 
   const startRecipe = useCallback(() => {
     verificaAndamentoDaReceitaESalva(path, apenasId);
     setContinueButton(true);
-  }, [path, apenasId]);
+    history.push(`${path}/in-progress`);
+  }, [path, apenasId, history]);
 
   return (
     <footer className="footer" data-testid="footer">
