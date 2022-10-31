@@ -10,7 +10,7 @@ export default function Login() {
   return (
     <Form onSubmit={ submitInfo }>
       <img className="imglogo" src={ logo } alt="Logo" />
-      <Form.Group className="mb-3" controlId="formBasicEmail">
+      <Form.Group className="mb-3">
         <Form.Label>Email address</Form.Label>
         <Form.Control
           id="email"
@@ -23,7 +23,7 @@ export default function Login() {
         />
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+      <Form.Group className="mb-3">
         <Form.Label>Password</Form.Label>
         <Form.Control
           id="password"
