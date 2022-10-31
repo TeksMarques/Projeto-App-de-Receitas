@@ -52,7 +52,7 @@ export default function Footer() {
         && (
           <div className="d-grid gap-2">
             <Button
-              variant="primary"
+              variant="success"
               size="lg"
               data-testid="start-recipe-btn"
               className="fixed-bottom"

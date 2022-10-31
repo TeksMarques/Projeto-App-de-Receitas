@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -19,40 +20,43 @@ export default function Profile() {
   return (
     <div>
       <Header />
-      <div>
+      <section className="profile">
         { (userEmail.length > 0) && <h5 data-testid="profile-email">{ userEmail }</h5> }
         <Link
           to="/done-recipes"
         >
-          <button
+          <Button
+            variant="success"
             type="button"
             data-testid="profile-done-btn"
           >
             Done Recipes
-          </button>
+          </Button>
         </Link>
         <Link
           to="/favorite-recipes"
         >
-          <button
+          <Button
+            variant="success"
             type="button"
             data-testid="profile-favorite-btn"
           >
             Favorite Recipes
-          </button>
+          </Button>
         </Link>
         <Link
           to="/"
         >
-          <button
+          <Button
+            variant="success"
             type="button"
             data-testid="profile-logout-btn"
             onClick={ () => localStorage.setItem('user', '') }
           >
-            Logoutprofile
-          </button>
+            Logout Profile
+          </Button>
         </Link>
-      </div>
+      </section>
       <Footer />
     </div>
   );

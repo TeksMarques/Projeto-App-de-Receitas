@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap') ;
+
 * {
   margin: 0 auto;
   padding: 0;
@@ -22,6 +24,7 @@
 .search-top {
   background: none;
   border: none;
+  margin: 10px;
 }
 
 header {
@@ -29,6 +32,7 @@ header {
   background-color: #db5b11;
   display: flex;
   flex-flow: column wrap;
+  font-family: Lexend Deca , sans-serif;
   gap: 5px;
   width: 100%;
 }
@@ -48,7 +52,6 @@ header {
   display: flex;
   gap: 15px;
   justify-content: space-between;
-  padding: 10px;
 }
 
 .header-profile-search2 {
@@ -106,10 +109,38 @@ main {
 
 .entrar-button {
   align-self: center;
-  max-width: 80%;
+  margin: 10px;
+  width: 80%;
 }
 
 .search-input {
   margin: 3px;
   padding: 1px;
+}
+
+.type-tittle {
+  color: rgb(55, 148, 101);
+  font-family: Lexend Deca , sans-serif;
+  font-size: xx-large;
+  font-weight: 700;
+}
+
+.igredientes {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 340px;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 360px;
+}
+
+.container-title {
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
 }
