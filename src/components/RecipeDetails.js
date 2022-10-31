@@ -18,8 +18,9 @@ function RecipesDetails(props) {
   const [measures, setMeasures] = useState([]);
   const [showMessage, setShowMessage] = useState(false);
   const [changeBtn, setChangeBtn] = useState(false);
-  const { recomendados, ehMeal, recipe, recipe: { strCategory, strInstructions,
-    strMeal, strMealThumb, strYoutube, strDrink, strDrinkThumb, strAlcoholic } } = props;
+  const { recomendados, ehMeal, recipe, recipe: { idMeal, idDrink, strCategory,
+    strInstructions, strMeal, strMealThumb, strYoutube, strDrink,
+    strDrinkThumb, strAlcoholic } } = props;
 
   const history = useHistory();
 
@@ -36,11 +37,16 @@ function RecipesDetails(props) {
   };
 
   useEffect(() => {
+    const getLocal = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    if (getLocal.some((rf) => rf.id === idMeal)
+    || getLocal.some((rf) => rf.id === idDrink)) {
+      setChangeBtn(true);
+    } else { setChangeBtn(false); }
     const ing = getIngredients(recipe, 'strIngredient');
     const mea = getIngredients(recipe, 'strMeasure');
     setIngredients(ing);
     setMeasures(mea);
-  }, [recipe]);
+  }, [recipe, idDrink, idMeal]);
 
   const shareRecipe = () => {
     copy(window.location.href);
@@ -51,7 +57,11 @@ function RecipesDetails(props) {
     const { location: { pathname } } = history;
     if (pathname.includes('meal')) saveMealAsFavorite(recipe);
     else saveDrinkAsFavorite(recipe);
-    setChangeBtn(true);
+    const getLocal = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    if (getLocal.some((rf) => rf.id === idMeal)
+    || getLocal.some((rf) => rf.id === idDrink)) {
+      setChangeBtn(true);
+    } else { setChangeBtn(false); }
   };
 
   return (
@@ -73,21 +83,35 @@ function RecipesDetails(props) {
           { ' ' }
           <button
             type="button"
-            data-testid="share-btn"
+            // data-testid="share-btn"
             className="search-top"
             onClick={ shareRecipe }
           >
-            <img src={ shareIcon } alt="shareIcon" />
+            <img
+              src={ shareIcon }
+              alt="shareIcon"
+              data-testid="share-btn"
+            />
           </button>
 
           <button
             type="button"
-            data-testid="favorite-btn"
+            // data-testid="favorite-btn"
             className="search-top"
             onClick={ favoriteRecipe }
           >
-            {changeBtn ? <img src={ blackHeartIcon } alt="whiteHeartIcon" />
-              : <img src={ whiteHeartIcon } alt="whiteHeartIcon" />}
+            { changeBtn ? (
+              <img
+                src={ blackHeartIcon }
+                alt="Receita favoritada"
+                data-testid="favorite-btn"
+              />)
+              : (
+                <img
+                  src={ whiteHeartIcon }
+                  alt="Favorite esta receita!"
+                  data-testid="favorite-btn"
+                />) }
           </button>
 
         </Card.Text>

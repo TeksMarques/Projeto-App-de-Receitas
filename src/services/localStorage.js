@@ -69,36 +69,48 @@ const verificaAndamentoDaReceita = (path, id) => {
 
 const saveMealAsFavorite = (data) => {
   const getLocal = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
-  const mockData = [
-    ...getLocal,
-    {
-      id: data.idMeal,
-      type: 'meal',
-      nationality: data.strArea,
-      category: data.strCategory,
-      alcoholicOrNot: '',
-      name: data.strMeal,
-      image: data.strMealThumb,
-    }];
-  localStorage.setItem('favoriteRecipes', JSON.stringify(mockData));
-  console.log('salvou no favoriteRecipes:', mockData);
+  if (getLocal.some((rf) => rf.id === data.idMeal)) {
+    // logica de remover do array de favoritos
+    getLocal.splice(getLocal.findIndex((rf) => rf.id === data.idMeal), 1);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(getLocal));
+  } else {
+    // logica de adicionar ao array de favoritos
+    const mockData = [
+      ...getLocal,
+      {
+        id: data.idMeal,
+        type: 'meal',
+        nationality: data.strArea,
+        category: data.strCategory,
+        alcoholicOrNot: '',
+        name: data.strMeal,
+        image: data.strMealThumb,
+      }];
+    localStorage.setItem('favoriteRecipes', JSON.stringify(mockData));
+  }
 };
 
 const saveDrinkAsFavorite = (data) => {
   const getLocal = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
-  const mockData = [
-    ...getLocal,
-    {
-      id: data.idDrink,
-      type: 'drink',
-      nationality: '',
-      category: data.strCategory,
-      alcoholicOrNot: data.strAlcoholic,
-      name: data.strDrink,
-      image: data.strDrinkThumb,
-    }];
-  localStorage.setItem('favoriteRecipes', JSON.stringify(mockData));
-  console.log('salvou no favoriteRecipes:', mockData);
+  if (getLocal.some((rf) => rf.id === data.idDrink)) {
+    // logica de remover do array de favoritos
+    getLocal.splice(getLocal.findIndex((rf) => rf.id === data.idDrink), 1);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(getLocal));
+  } else {
+    const mockData = [
+      ...getLocal,
+      {
+        id: data.idDrink,
+        type: 'drink',
+        nationality: '',
+        category: data.strCategory,
+        alcoholicOrNot: data.strAlcoholic,
+        name: data.strDrink,
+        image: data.strDrinkThumb,
+      }];
+    localStorage.setItem('favoriteRecipes', JSON.stringify(mockData));
+    console.log('salvou no favoriteRecipes:', mockData);
+  }
 };
 
 export { verificaIdNoDoneRecipes, verificaAndamentoDaReceitaESalva,

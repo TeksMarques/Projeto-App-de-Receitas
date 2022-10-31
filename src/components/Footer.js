@@ -35,7 +35,17 @@ export default function Footer() {
   }, [path, apenasId, history]);
 
   return (
-    <footer className="footer" data-testid="footer">
+    <footer data-testid="footer">
+      { (path === '/meals' || path === '/drinks' || path === '/profile') && (
+        <div className="footer">
+          <Link to="/meals">
+            <img src={ mealIcon } alt="Meals" data-testid="meals-bottom-btn" />
+          </Link>
+          <Link to="/drinks">
+            <img src={ drinkIcon } alt="Drinks" data-testid="drinks-bottom-btn" />
+          </Link>
+        </div>
+      ) }
       { ((path.includes('/meals/')
       || path.includes('/drinks/'))
       )
@@ -52,16 +62,6 @@ export default function Footer() {
             </Button>
           </div>
         ) }
-      { (path === '/meals' || path === '/drinks' || path === '/profile') && (
-        <div className="footer">
-          <Link to="/meals">
-            <img src={ mealIcon } alt="Meals" data-testid="meals-bottom-btn" />
-          </Link>
-          <Link to="/drinks">
-            <img src={ drinkIcon } alt="Drinks" data-testid="drinks-bottom-btn" />
-          </Link>
-        </div>
-      ) }
     </footer>
   );
 }

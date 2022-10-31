@@ -62,10 +62,18 @@ header {
   color: wheat;
 }
 
+footer {
+  align-items: center;
+  bottom: 0;
+  display: flex;
+  height: 55px;
+  position: fixed;
+  width: 360px;
+}
+
 .footer {
   align-items: center;
   background-color: #f6a17a;
-  bottom: 0;
   display: flex;
   height: 55px;
   position: fixed;
@@ -99,10 +107,9 @@ main {
 .entrar-button {
   align-self: center;
   max-width: 80%;
-
 }
 
 .search-input {
   margin: 3px;
   padding: 1px;
-
+}
