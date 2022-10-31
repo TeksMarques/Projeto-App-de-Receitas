@@ -37,7 +37,7 @@ function RecipesDetails(props) {
   };
 
   useEffect(() => {
-    const getLocal = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const getLocal = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     if (getLocal.some((rf) => rf.id === idMeal)
     || getLocal.some((rf) => rf.id === idDrink)) {
       setChangeBtn(true);
@@ -57,7 +57,7 @@ function RecipesDetails(props) {
     const { location: { pathname } } = history;
     if (pathname.includes('meal')) saveMealAsFavorite(recipe);
     else saveDrinkAsFavorite(recipe);
-    const getLocal = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const getLocal = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     if (getLocal.some((rf) => rf.id === idMeal)
     || getLocal.some((rf) => rf.id === idDrink)) {
       setChangeBtn(true);
@@ -83,21 +83,35 @@ function RecipesDetails(props) {
           { ' ' }
           <button
             type="button"
-            data-testid="share-btn"
+            // data-testid="share-btn"
             className="search-top"
             onClick={ shareRecipe }
           >
-            <img src={ shareIcon } alt="shareIcon" />
+            <img
+              src={ shareIcon }
+              alt="shareIcon"
+              data-testid="share-btn"
+            />
           </button>
 
           <button
             type="button"
-            data-testid="favorite-btn"
+            // data-testid="favorite-btn"
             className="search-top"
             onClick={ favoriteRecipe }
           >
-            { changeBtn ? <img src={ blackHeartIcon } alt="whiteHeartIcon" />
-              : <img src={ whiteHeartIcon } alt="whiteHeartIcon" /> }
+            { changeBtn ? (
+              <img
+                src={ blackHeartIcon }
+                alt="Receita favoritada"
+                data-testid="favorite-btn"
+              />)
+              : (
+                <img
+                  src={ whiteHeartIcon }
+                  alt="Favorite esta receita!"
+                  data-testid="favorite-btn"
+                />) }
           </button>
 
         </Card.Text>
