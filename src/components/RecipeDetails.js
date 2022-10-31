@@ -37,6 +37,8 @@ function RecipesDetails(props) {
   };
 
   useEffect(() => {
+    const pageTitle = recipe.strMeal || recipe.strDrink;
+    document.title = `Receita: ${pageTitle}`;
     const getLocal = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     if (getLocal.some((rf) => rf.id === idMeal)
     || getLocal.some((rf) => rf.id === idDrink)) {
