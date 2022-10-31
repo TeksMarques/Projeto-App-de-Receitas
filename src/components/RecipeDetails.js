@@ -3,6 +3,7 @@ import teste from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
+import { Alert } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import Recomendacoes from './Recomendacoes';
 import Footer from './Footer';
@@ -75,14 +76,9 @@ function RecipesDetails(props) {
       />
 
       <Card.Body>
-        <Card.Title data-testid="recipe-title">
-          { ehMeal === 'true' ? strMeal : strDrink }
-        </Card.Title>
-        <Card.Text data-testid="recipe-category">
-          { strCategory }
-          { ' ' }
-          { strAlcoholic }
-          { ' ' }
+        <Card.Title data-testid="recipe-title" className="container-title">
+          { ehMeal === 'true' ? (<span className="type-tittle">{strMeal}</span>)
+            : (<span className="type-tittle">{strDrink}</span>) }
           <button
             type="button"
             // data-testid="share-btn"
@@ -115,9 +111,21 @@ function RecipesDetails(props) {
                   data-testid="favorite-btn"
                 />) }
           </button>
+        </Card.Title>
+        <Card.Text data-testid="recipe-category">
+          { strCategory }
+          { ' ' }
+          { strAlcoholic }
+          { ' ' }
 
         </Card.Text>
-        {showMessage && <Card.Text>Link copied!</Card.Text>}
+        {showMessage && (
+          <Card.Text>
+            <Alert>
+              Link copied!
+            </Alert>
+          </Card.Text>
+        ) }
 
         <Card.Text data-testid="instructions">
           { strInstructions }
@@ -146,7 +154,7 @@ function RecipesDetails(props) {
             <div className="ms-2 me-auto">
               { ingredient }
             </div>
-            <Badge bg="primary" pill>
+            <Badge bg="success" pill>
               { measures[index] }
             </Badge>
           </ListGroup.Item>

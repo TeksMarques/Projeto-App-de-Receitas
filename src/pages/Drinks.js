@@ -17,7 +17,7 @@ export default function Drinks() {
       <Header />
       <div className="navbar">
         <Button
-          variant="primary"
+          variant="success"
           size="sm"
           data-testid="All-category-filter"
           onClick={ fetchDrink }
@@ -31,7 +31,7 @@ export default function Drinks() {
               data-testid={ `${cat.strCategory}-category-filter` }
               onClick={ (event) => filterCategory(event, cat.strCategory, 'drinks') }
               name={ cat.strCategory }
-              variant="primary"
+              variant="success"
               size="sm"
             >
               { cat.strCategory }
