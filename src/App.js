@@ -9,8 +9,9 @@ import Drinks from './pages/Drinks';
 import Profile from './pages/Profile';
 import IdMeals from './pages/IdMeals';
 import IdDrinks from './pages/IdDrinks';
-import IdMealsInProgress from './pages/IdMealsInProgress';
-import IdDrinksInProgress from './pages/IdDrinksInProgress';
+import RecipeInProgress from './pages/RecipeInProgress';
+// import IdMealsInProgress from './pages/IdMealsInProgress';
+// import IdDrinksInProgress from './pages/IdDrinksInProgress';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 
@@ -23,18 +24,16 @@ function App() {
           <Route exact path="/meals" component={ Meals } />
           <Route exact path="/drinks" component={ Drinks } />
           <Route exact path="/profile" component={ Profile } />
+          <Route
+            path="/meals/:id/in-progress"
+            component={ RecipeInProgress }
+          />
+          <Route
+            path="/drinks/:id/in-progress"
+            component={ RecipeInProgress }
+          />
           <Route path="/meals/:id" component={ IdMeals } />
           <Route path="/drinks/:id" component={ IdDrinks } />
-          <Route
-            exact
-            path="/meals/:id/in-progress"
-            component={ IdMealsInProgress }
-          />
-          <Route
-            exact
-            path="/drinks/:id/in-progress"
-            component={ IdDrinksInProgress }
-          />
           <Route exact path="/done-recipes" component={ DoneRecipes } />
           <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
         </Switch>

@@ -5,28 +5,24 @@ const verificaIdNoDoneRecipes = (id) => {
   return (findId);
 };
 
-const saveMealInProgress = (id, inprogresskey) => {
+const saveMealInProgress = (id, prev, ingredients) => {
   const mockData = {
+    ...prev,
     meals: {
-      ...inprogresskey.meals,
-      [id]: [],
-    },
-    drinks: {
-      ...inprogresskey.drinks,
+      ...prev.meals,
+      [id]: ingredients,
     },
   };
   localStorage.setItem('inProgressRecipes', JSON.stringify(mockData));
   console.log('salvou no localStorage:', mockData);
 };
 
-const saveDrinkInProgress = (id, inprogresskey) => {
+const saveDrinkInProgress = (id, prev, ingredients) => {
   const mockData = {
-    meals: {
-      ...inprogresskey.meals,
-    },
+    ...prev,
     drinks: {
-      ...inprogresskey.drinks,
-      [id]: [],
+      ...prev.drinks,
+      [id]: ingredients,
     },
   };
   localStorage.setItem('inProgressRecipes', JSON.stringify(mockData));
