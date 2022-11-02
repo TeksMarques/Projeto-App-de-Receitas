@@ -13,22 +13,27 @@ export default function Footer() {
   const { location: { pathname } } = history;
 
   const startRecipe = useCallback(() => {
+    setContinueButton(true);
     history.push(`${pathname}/in-progress`);
   }, [history, pathname]);
+
+  const handleContinueButton = useCallback((value) => {
+    setContinueButton(value);
+  }, []);
 
   const findInProgressRecipe = (id, parse) => {
     const mealKeys = Object.keys(parse.meals) || [];
     const drinkKeys = Object.keys(parse.drinks) || [];
     const allKeys = mealKeys.concat(drinkKeys) || [];
-    if (allKeys.some((k) => k === id)) startRecipe();
-    else console.log('Não encontrou');
+    console.log('allkeys some', allKeys.some((k) => k === id));
+    if (allKeys.some((k) => k === id)) handleContinueButton(true);
+    else handleContinueButton(false);
   };
 
   useEffect(() => {
-    if (pathname.includes('in-progress')) setContinueButton(true);
+    if (pathname.includes('in-progress')) handleContinueButton(true);
     const getLocal = localStorage.getItem('inProgressRecipes');
     const parse = JSON.parse(getLocal) || { meals: {}, drinks: {} };
-    console.log('parse no useEffect', parse);
     if (pathname.startsWith('/meal')) {
       const newId = pathname.slice(INDEX_MEAL_ID);
       findInProgressRecipe(newId, parse);
@@ -36,11 +41,8 @@ export default function Footer() {
     if (pathname.includes('/drink')) {
       const newId = pathname.slice(INDEX_DRINK_ID);
       findInProgressRecipe(newId, parse);
-    } else {
-      console.log('FOOTER: esta receita não está In Progress');
-      setContinueButton(false);
     }
-  }, [history, pathname]);
+  }, [history, pathname, handleContinueButton, findInProgressRecipe]);
 
   return (
     <footer>
