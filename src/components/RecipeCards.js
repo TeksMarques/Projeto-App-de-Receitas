@@ -23,13 +23,18 @@ export default function RecipeCards(props) {
               ? (`${pathname}/${item.idMeal}`)
               : (`${pathname}/${item.idDrink}`) }
           >
-            <Card>
+            <Card data-testid={ `${idx}-recipe-card` }>
               <Card.Img
                 variant="top"
                 src={ item.strMealThumb || item.strDrinkThumb }
+                data-testid={ `${idx}-card-img` }
               />
               <Card.Body>
-                <Card.Title>{ item.strMeal || item.strDrink }</Card.Title>
+                <Card.Title
+                  data-testid={ `${idx}-card-name` }
+                >
+                  { item.strMeal || item.strDrink }
+                </Card.Title>
               </Card.Body>
             </Card>
           </Link>

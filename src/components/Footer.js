@@ -48,7 +48,7 @@ export default function Footer(props) {
   return (
     <footer data-testid="footer">
       { (meals || drinks || profile) && (
-        <div className="footer">
+        <div className="footer" data-testid="footer">
           <Link to="/meals">
             <img src={ mealIcon } alt="Meals" data-testid="meals-bottom-btn" />
           </Link>
