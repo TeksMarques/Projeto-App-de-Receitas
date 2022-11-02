@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import teste from 'prop-types';
+import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
@@ -8,20 +9,21 @@ import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { fetchByIdDrink, fetchByIdMeal } from '../services/fetchApi';
-import { mealInProgress, drinkInProgress } from '../services/localStorage';
+import { mealInProgress, drinkInProgress,
+  saveMealAsFavorite, saveDrinkAsFavorite } from '../services/localStorage';
 import RecipesContext from '../context/RecipesContext';
 
 const copy = require('clipboard-copy');
 
 export default function RecipeInProgress(props) {
   const [data, setData] = useState({});
-  const { mealsData, drinksData } = useContext(RecipesContext);
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
   const [ingredientesUsados, setIngredientesUsados] = useState([]);
   const [ehMeal, setEhMeal] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   const [changeBtn, setChangeBtn] = useState(false);
+  const { mealsData, drinksData } = useContext(RecipesContext);
   const { match: { path, params: { id } } } = props;
 
   const getIngredients = (recipeItem, str) => {
@@ -31,6 +33,18 @@ export default function RecipeInProgress(props) {
         return '';
       }).filter((arr) => arr !== '' && arr !== null && arr !== ' ');
     return result;
+  };
+
+  const shareRecipe = () => {
+    copy(window.location.href);
+    setShowMessage(true);
+  };
+
+  const favoriteRecipe = () => {
+    if (path.includes('meal')) {
+      saveMealAsFavorite(data);
+    } else saveDrinkAsFavorite(data);
+    setChangeBtn(!changeBtn);
   };
 
   useEffect(() => {
@@ -64,6 +78,8 @@ export default function RecipeInProgress(props) {
       }
     };
     setData(fazOFetch());
+    const favRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    if (favRecipes.some((rf) => rf.id === id)) setChangeBtn(true);
   }, [mealsData, drinksData, path, id]);
 
   const markIngredient = (event) => {
@@ -103,21 +119,6 @@ export default function RecipeInProgress(props) {
     else { console.log('Continue add'); }
   }, [ingredientesUsados]);
 
-  const shareRecipe = () => {
-    copy(window.location.href);
-    setShowMessage(true);
-  };
-
-  // const favoriteRecipe = () => {
-  //   if (path.includes('meal')) saveMealAsFavorite(data);
-  //   else saveDrinkAsFavorite(data);
-  //   const getLocal = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
-  //   if (getLocal.some((rf) => rf.id === receitaAtiva.idMeal)
-  //   || getLocal.some((rf) => rf.id === receitaAtiva.idDrink)) {
-  //     setChangeBtn(true);
-  //   } else { setChangeBtn(false); }
-  // };
-
   return (
     <Card style={ { width: '360px' } }>
       <Card.Img
@@ -125,7 +126,6 @@ export default function RecipeInProgress(props) {
         data-testid="recipe-photo"
         src={ ehMeal ? data.strMealThumb : data.strDrinkThumb }
       />
-
       <Card.Body>
         <Card.Title data-testid="recipe-title" className="container-title">
           { ehMeal ? data.strMeal
@@ -133,7 +133,7 @@ export default function RecipeInProgress(props) {
           <button
             type="button"
             className="search-top"
-            // onClick={ shareRecipe }
+            onClick={ shareRecipe }
           >
             <img
               src={ shareIcon }
@@ -145,7 +145,7 @@ export default function RecipeInProgress(props) {
           <button
             type="button"
             className="search-top"
-            // onClick={ favoriteRecipe }
+            onClick={ favoriteRecipe }
           >
             { changeBtn ? (
               <img
@@ -191,12 +191,13 @@ export default function RecipeInProgress(props) {
           >
             <form>
               <label
-                htmlFor={ `${index}-ingredient-name-and-measure` }
+                htmlFor={ ingredient }
+                data-testid={ `${index}-ingredient-step` }
                 className={ (ingredientesUsados.some((iu) => iu === ingredient))
                   ? ('used-ingredient') : ('') }
               >
                 <input
-                  id={ `${index}-ingredient-name-and-measure` }
+                  id={ ingredient }
                   type="checkbox"
                   value={ ingredient }
                   defaultChecked={ ingredientesUsados.some((iu) => iu === ingredient) }
@@ -211,6 +212,12 @@ export default function RecipeInProgress(props) {
           </ListGroup.Item>
         ))}
       </ListGroup>
+      <Button
+        variant="primary"
+        data-testid="finish-recipe-btn"
+      >
+        Finish Recipe
+      </Button>
     </Card>
   );
 }

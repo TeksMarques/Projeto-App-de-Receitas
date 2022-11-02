@@ -58,8 +58,8 @@ export default function Footer() {
           </Link>
         </div>
       ) }
-      { ((pathname.includes('/meals/')
-      || pathname.includes('/drinks/'))
+      { ((pathname.startsWith('/meals/')
+      || pathname.startsWith('/drinks/'))
       )
         && (
           <div className="d-grid gap-2">
