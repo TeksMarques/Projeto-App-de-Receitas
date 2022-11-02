@@ -3,41 +3,51 @@ import { Link, useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
-import { verificaAndamentoDaReceitaESalva,
-  verificaAndamentoDaReceita } from '../services/localStorage';
 
 export default function Footer() {
-  const [path, setPath] = useState('');
   const [continueButton, setContinueButton] = useState(false);
-  const [apenasId, setApenasId] = useState(0);
   const INDEX_MEAL_ID = 7;
   const INDEX_DRINK_ID = 8;
 
   const history = useHistory();
   const { location: { pathname } } = history;
 
-  useEffect(() => {
-    setPath(pathname);
-    let newId = '';
-    if (pathname.includes('/meal')) newId = pathname.slice(INDEX_MEAL_ID);
-    else newId = pathname.slice(INDEX_DRINK_ID);
-    setApenasId(newId);
-    if (verificaAndamentoDaReceita(path, apenasId)) {
-      setContinueButton(true);
-      history.push(`${path}/in-progress`);
-    }
-  }, [pathname, path, apenasId, history]);
-
   const startRecipe = useCallback(() => {
-    verificaAndamentoDaReceitaESalva(path, apenasId);
-    setContinueButton(true);
-    history.push(`${path}/in-progress`);
-  }, [path, apenasId, history]);
+    history.push(`${pathname}/in-progress`);
+  }, [history, pathname]);
+
+  const findInProgressRecipe = (id, parse) => {
+    const mealKeys = Object.keys(parse.meals) || [];
+    const drinkKeys = Object.keys(parse.drinks) || [];
+    const allKeys = mealKeys.concat(drinkKeys) || [];
+    if (allKeys.some((k) => k === id)) startRecipe();
+    else console.log('Não encontrou');
+  };
+
+  useEffect(() => {
+    if (pathname.includes('in-progress')) setContinueButton(true);
+    const getLocal = localStorage.getItem('inProgressRecipes');
+    const parse = JSON.parse(getLocal) || { meals: {}, drinks: {} };
+    console.log('parse no useEffect', parse);
+    if (pathname.startsWith('/meal')) {
+      const newId = pathname.slice(INDEX_MEAL_ID);
+      findInProgressRecipe(newId, parse);
+    }
+    if (pathname.includes('/drink')) {
+      const newId = pathname.slice(INDEX_DRINK_ID);
+      findInProgressRecipe(newId, parse);
+    } else {
+      console.log('FOOTER: esta receita não está In Progress');
+      setContinueButton(false);
+    }
+  }, [history, pathname]);
 
   return (
-    <footer data-testid="footer">
-      { (path === '/meals' || path === '/drinks' || path === '/profile') && (
-        <div className="footer">
+    <footer>
+      { (pathname.endsWith('/meals') || pathname.endsWith('/meals/')
+      || pathname.endsWith('/drinks') || pathname.endsWith('/drinks/')
+      || pathname.endsWith('/profile')) && (
+        <div className="footer" data-testid="footer">
           <Link to="/meals">
             <img src={ mealIcon } alt="Meals" data-testid="meals-bottom-btn" />
           </Link>
@@ -46,8 +56,8 @@ export default function Footer() {
           </Link>
         </div>
       ) }
-      { ((path.includes('/meals/')
-      || path.includes('/drinks/'))
+      { ((pathname.includes('/meals/')
+      || pathname.includes('/drinks/'))
       )
         && (
           <div className="d-grid gap-2">

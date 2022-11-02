@@ -144,3 +144,7 @@ main {
   display: flex;
   justify-content: space-evenly;
 }
+
+.used-ingredient {
+  text-decoration: line-through solid rgb(0, 0, 0);
+}
