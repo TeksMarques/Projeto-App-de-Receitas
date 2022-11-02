@@ -10,8 +10,6 @@ import Profile from './pages/Profile';
 import IdMeals from './pages/IdMeals';
 import IdDrinks from './pages/IdDrinks';
 import RecipeInProgress from './pages/RecipeInProgress';
-// import IdMealsInProgress from './pages/IdMealsInProgress';
-// import IdDrinksInProgress from './pages/IdDrinksInProgress';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 

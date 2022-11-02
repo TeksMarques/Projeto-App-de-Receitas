@@ -13,10 +13,7 @@ export default function Profile() {
     const address = parsa.email || '';
     setUserEmail(address);
   }, []);
-  // const PreuserEmail = JSON.parse(localStorage.getItem('user')) || { email: '' };
-  // const userEmail = PreuserEmail.email;
-  // const getUserItem = JSON.parse(localStorage.getItem('user')) || {};
-  // console.log(userEmail);
+
   return (
     <div>
       <Header />
@@ -51,13 +48,13 @@ export default function Profile() {
             variant="success"
             type="button"
             data-testid="profile-logout-btn"
-            onClick={ () => localStorage.setItem('user', '') }
+            onClick={ () => localStorage.clear() }
           >
             Logout Profile
           </Button>
         </Link>
       </section>
-      <Footer />
+      <Footer profile />
     </div>
   );
 }

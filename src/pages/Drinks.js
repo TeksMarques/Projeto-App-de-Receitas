@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
-import { Redirect, Link } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
+import { Redirect } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import RecipesContext from '../context/RecipesContext';
-import Recipes from '../components/Recipes';
+import RecipeCards from '../components/RecipeCards';
 
-const MAX_INDEX = 12;
 const MAX_CATEGORIES = 5;
 
 export default function Drinks() {
@@ -14,42 +15,37 @@ export default function Drinks() {
     filterCategory, fetchDrink, searchByCategory } = useContext(RecipesContext);
   return (
     <div>
-      <Header />
-      <div className="navbar">
-        <Button
-          variant="success"
-          size="sm"
-          data-testid="All-category-filter"
-          onClick={ fetchDrink }
-        >
-          All
-        </Button>
-        { drinksCategories.filter((cat, i) => i < MAX_CATEGORIES)
-          ?.map((cat) => (
-            <Button
-              key={ cat.strCategory }
-              data-testid={ `${cat.strCategory}-category-filter` }
-              onClick={ (event) => filterCategory(event, cat.strCategory, 'drinks') }
-              name={ cat.strCategory }
-              variant="success"
-              size="sm"
+      <Header drinks />
+      <Navbar bg="light" variant="light" style={ { width: '360px' } }>
+        <Container>
+          <Nav className="me-auto">
+            <Nav.Link
+              data-testid="All-category-filter"
+              onClick={ fetchDrink }
             >
-              { cat.strCategory }
-            </Button>)) }
-      </div>
+              All
+            </Nav.Link>
+            { drinksCategories.filter((cat, i) => i < MAX_CATEGORIES)
+              ?.map((cat) => (
+                <Nav.Link
+                  key={ cat.strCategory }
+                  data-testid={ `${cat.strCategory}-category-filter` }
+                  onClick={ (event) => filterCategory(event, cat.strCategory, 'drinks') }
+                  name={ cat.strCategory }
+                  variant="success"
+                  size="sm"
+                >
+                  { cat.strCategory }
+                </Nav.Link>)) }
+          </Nav>
+        </Container>
+      </Navbar>
       <main>
-        { drinksData?.length === 1 && !searchByCategory
-        && <Redirect to={ `/drinks/${drinksData[0].idDrink}` } />}
-        { drinksData?.map((drink, index) => index < MAX_INDEX && (
-          <Link to={ `/drinks/${drink.idDrink}` } key={ drink.idDrink }>
-            <Recipes
-              index={ index }
-              tag={ drink.strDrink }
-              img={ drink.strDrinkThumb }
-            />
-          </Link>)) }
+        { (drinksData?.length === 1 && !searchByCategory)
+        && <Redirect to={ `/drinks/${drinksData[0].idDrink}` } /> }
+        <RecipeCards data={ drinksData } />
       </main>
-      <Footer />
+      <Footer drinks />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import teste from 'prop-types';
-import RecipesDetails from '../components/RecipeDetails';
+import RecipesDetails from './RecipeDetails';
 import { fetchByIdMeal, fetchDrinkBy } from '../services/fetchApi';
 
 export default function IdMeals(props) {
@@ -24,7 +24,7 @@ export default function IdMeals(props) {
       && (
         <RecipesDetails
           recipe={ data[0] }
-          ehMeal="true"
+          ehMeal
           recomendados={ recomendados }
         />)}
     </div>

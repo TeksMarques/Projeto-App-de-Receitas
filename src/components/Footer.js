@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import teste from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
 
-export default function Footer() {
+export default function Footer(props) {
   const [continueButton, setContinueButton] = useState(false);
+  const { meals, drinks, profile } = props;
   const INDEX_MEAL_ID = 7;
   const INDEX_DRINK_ID = 8;
 
@@ -21,14 +23,13 @@ export default function Footer() {
     setContinueButton(value);
   }, []);
 
-  const findInProgressRecipe = (id, parse) => {
+  const findInProgressRecipe = useCallback((id, parse) => {
     const mealKeys = Object.keys(parse.meals) || [];
     const drinkKeys = Object.keys(parse.drinks) || [];
     const allKeys = mealKeys.concat(drinkKeys) || [];
-    console.log('allkeys some', allKeys.some((k) => k === id));
     if (allKeys.some((k) => k === id)) handleContinueButton(true);
     else handleContinueButton(false);
-  };
+  }, [handleContinueButton]);
 
   useEffect(() => {
     if (pathname.includes('in-progress')) handleContinueButton(true);
@@ -45,11 +46,9 @@ export default function Footer() {
   }, [history, pathname, handleContinueButton, findInProgressRecipe]);
 
   return (
-    <footer>
-      { (pathname.endsWith('/meals') || pathname.endsWith('/meals/')
-      || pathname.endsWith('/drinks') || pathname.endsWith('/drinks/')
-      || pathname.endsWith('/profile')) && (
-        <div className="footer" data-testid="footer">
+    <footer data-testid="footer">
+      { (meals || drinks || profile) && (
+        <div className="footer">
           <Link to="/meals">
             <img src={ mealIcon } alt="Meals" data-testid="meals-bottom-btn" />
           </Link>
@@ -77,3 +76,9 @@ export default function Footer() {
     </footer>
   );
 }
+
+Footer.propTypes = {
+  meals: teste.bool,
+  drinks: teste.bool,
+  profile: teste.bool,
+}.isRequired;

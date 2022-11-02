@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import teste from 'prop-types';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
@@ -23,8 +23,11 @@ export default function RecipeInProgress(props) {
   const [ehMeal, setEhMeal] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   const [changeBtn, setChangeBtn] = useState(false);
+  const [finishBtnDisabled, setFinishBtnDisabled] = useState(true);
   const { mealsData, drinksData } = useContext(RecipesContext);
   const { match: { path, params: { id } } } = props;
+  const history = useHistory();
+  const SELECTED = 'used-ingredient';
 
   const getIngredients = (recipeItem, str) => {
     const result = recipeItem
@@ -36,6 +39,7 @@ export default function RecipeInProgress(props) {
   };
 
   const shareRecipe = () => {
+    console.log(history);
     copy(window.location.href);
     setShowMessage(true);
   };
@@ -46,6 +50,10 @@ export default function RecipeInProgress(props) {
     } else saveDrinkAsFavorite(data);
     setChangeBtn(!changeBtn);
   };
+
+  const finishRecipe = useCallback(() => {
+    history.push('../../done-recipes');
+  }, [history]);
 
   useEffect(() => {
     const getLocal = JSON.parse(localStorage.getItem('inProgressRecipes'))
@@ -94,7 +102,7 @@ export default function RecipeInProgress(props) {
         mealInProgress(id, getLocal, filtro);
       } else {
         ingUtilizados.push(value);
-        event.target.parentElement.className = 'used-ingredient';
+        event.target.parentElement.className = SELECTED;
         setIngredientesUsados(ingUtilizados);
         mealInProgress(id, getLocal, ingUtilizados);
       }
@@ -107,7 +115,7 @@ export default function RecipeInProgress(props) {
         drinkInProgress(id, getLocal, filtro);
       } else {
         ingUtilizados.push(value);
-        event.target.parentElement.className = 'used-ingredient';
+        event.target.parentElement.className = SELECTED;
         setIngredientesUsados(ingUtilizados);
         drinkInProgress(id, getLocal, ingUtilizados);
       }
@@ -115,9 +123,9 @@ export default function RecipeInProgress(props) {
   };
 
   useEffect(() => {
-    if ((ingredientesUsados.length) === (ingredients.length)) console.log('same size');
-    else { console.log('Continue add'); }
-  }, [ingredientesUsados]);
+    if ((ingredientesUsados.length) === (ingredients.length)) setFinishBtnDisabled(false);
+    else { setFinishBtnDisabled(true); }
+  }, [ingredientesUsados, ingredients.length]);
 
   return (
     <Card style={ { width: '360px' } }>
@@ -194,7 +202,7 @@ export default function RecipeInProgress(props) {
                 htmlFor={ ingredient }
                 data-testid={ `${index}-ingredient-step` }
                 className={ (ingredientesUsados.some((iu) => iu === ingredient))
-                  ? ('used-ingredient') : ('') }
+                  ? SELECTED : ('') }
               >
                 <input
                   id={ ingredient }
@@ -212,17 +220,19 @@ export default function RecipeInProgress(props) {
           </ListGroup.Item>
         ))}
       </ListGroup>
-      <Button
-        variant="primary"
+      <button
+        type="button"
         data-testid="finish-recipe-btn"
+        disabled={ finishBtnDisabled }
+        onClick={ finishRecipe }
       >
         Finish Recipe
-      </Button>
+      </button>
     </Card>
   );
 }
 
-RecipeInProgress.propType = {
+RecipeInProgress.propTypes = {
   match: teste.shape({
     path: teste.shape({
       id: teste.string,
