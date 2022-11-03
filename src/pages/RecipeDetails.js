@@ -68,16 +68,16 @@ function RecipesDetails(props) {
   };
 
   return (
-    <Card style={ { width: '360px' } }>
+    <Card className="maximo">
       <Card.Img
         variant="top"
         data-testid="recipe-photo"
-        src={ ehMeal === true ? strMealThumb : strDrinkThumb }
+        src={ ehMeal ? strMealThumb : strDrinkThumb }
       />
 
       <Card.Body>
         <Card.Title data-testid="recipe-title" className="container-title">
-          { ehMeal === true ? (<span className="type-tittle">{strMeal}</span>)
+          { ehMeal ? (<span className="type-tittle">{strMeal}</span>)
             : (<span className="type-tittle">{strDrink}</span>) }
           <button
             type="button"
@@ -94,7 +94,6 @@ function RecipesDetails(props) {
 
           <button
             type="button"
-            // data-testid="favorite-btn"
             className="search-top"
             onClick={ favoriteRecipe }
           >
@@ -112,11 +111,13 @@ function RecipesDetails(props) {
                 />) }
           </button>
         </Card.Title>
-        <Card.Text data-testid="recipe-category">
-          { strCategory }
-          { ' ' }
-          { strAlcoholic }
-          { ' ' }
+        <Card.Text data-testid="recipe-category" align="center">
+          <Badge bg="success">
+            { strCategory }
+          </Badge>
+          <Badge bg="success">
+            { strAlcoholic }
+          </Badge>
 
         </Card.Text>
         {showMessage && (
@@ -130,7 +131,7 @@ function RecipesDetails(props) {
         <Card.Text data-testid="instructions">
           { strInstructions }
         </Card.Text>
-        { ehMeal === true && (
+        { ehMeal && (
           <Card.Text data-testid="video">
             <iframe
               title={ strMeal }
@@ -149,12 +150,12 @@ function RecipesDetails(props) {
             data-testid={ `${index}-ingredient-name-and-measure` }
             key={ index }
             className="d-flex justify-content-between align-items-center"
-            style={ { width: '340px' } }
+            style={ { width: '360px' } }
           >
-            <div className="ms-2 me-auto">
-              { ingredient }
-            </div>
-            <Badge bg="success" pill>
+            {/* <div className="ms-2 me-auto"> */}
+            { ingredient }
+            {/* </div> */}
+            <Badge bg="primary" pill>
               { measures[index] }
             </Badge>
           </ListGroup.Item>
