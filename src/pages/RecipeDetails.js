@@ -160,7 +160,7 @@ function RecipesDetails(props) {
           </ListGroup.Item>
         ))}
       </ListGroup>
-      <Recomendacoes data={ recomendados } ehMeal={ ehMeal } />
+      <Recomendacoes data={ recomendados } />
       <Footer />
     </Card>
   );

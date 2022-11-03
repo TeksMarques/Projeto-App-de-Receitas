@@ -23,6 +23,7 @@ export default function IdDrinks(props) {
       { data.length > 0
       && <RecipesDetails
         recipe={ data[0] }
+        ehMeal={ false }
         recomendados={ recomendados }
       /> }
     </div>

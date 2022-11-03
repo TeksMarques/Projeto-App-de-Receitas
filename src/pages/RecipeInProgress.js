@@ -9,8 +9,8 @@ import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { fetchByIdDrink, fetchByIdMeal } from '../services/fetchApi';
-import { mealInProgress, drinkInProgress,
-  saveMealAsFavorite, saveDrinkAsFavorite } from '../services/localStorage';
+import { mealInProgress, drinkInProgress, saveMealAsFavorite, saveDrinkAsFavorite,
+  saveMealAsDone, saveDrinkAsDone } from '../services/localStorage';
 import RecipesContext from '../context/RecipesContext';
 
 const copy = require('clipboard-copy');
@@ -39,8 +39,7 @@ export default function RecipeInProgress(props) {
   };
 
   const shareRecipe = () => {
-    console.log(history);
-    copy(window.location.href);
+    copy(window.location.href.replace('/in-progress', ''));
     setShowMessage(true);
   };
 
@@ -52,8 +51,11 @@ export default function RecipeInProgress(props) {
   };
 
   const finishRecipe = useCallback(() => {
+    const dateDoneRecipe = new Date();
+    if (path.includes('meal')) saveMealAsDone(data, dateDoneRecipe);
+    else saveDrinkAsDone(data, dateDoneRecipe);
     history.push('../../done-recipes');
-  }, [history]);
+  }, [history, data, path]);
 
   useEffect(() => {
     const getLocal = JSON.parse(localStorage.getItem('inProgressRecipes'))
