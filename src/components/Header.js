@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import teste from 'prop-types';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import RecipesContext from '../context/RecipesContext';
 import Search from './Search';
 import logo from '../img/T_DoceLogo.png';
 
-export default function Header() {
+export default function Header(props) {
   const { tituloPagina, searchBar, showSearch,
     redirectToProfile } = useContext(RecipesContext);
-
+  const { meals, drinks } = props;
   const history = useHistory();
   return (
     <header>
@@ -31,8 +32,7 @@ export default function Header() {
               alt="Profile"
             />
           </button>
-          { ((history.location.pathname === '/meals')
-          || (history.location.pathname === '/drinks'))
+          { (meals || drinks)
           && (
             <button
               type="button"
@@ -51,9 +51,13 @@ export default function Header() {
         </h1>
       </div>
       <div>
-
         { searchBar && <Search /> }
       </div>
     </header>
   );
 }
+
+Header.propTypes = {
+  meals: teste.bool,
+  drinks: teste.bool,
+}.isRequired;

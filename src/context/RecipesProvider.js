@@ -43,14 +43,18 @@ function RecipesProvider({ children }) {
     }
     if (estouEm === '/meals') {
       const response = await fetchMealBy(searchRadioButton, searchString);
+      console.log('fetch meal by', response);
       if (response === null) {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
+        return;
       }
       setMealsData(response);
     } else {
       const response = await fetchDrinkBy(searchRadioButton, searchString);
+      console.log('fetch drink by', response);
       if (response === null) {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
+        return;
       }
       setDrinksData(response);
     }

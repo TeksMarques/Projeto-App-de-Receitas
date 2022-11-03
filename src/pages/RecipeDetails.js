@@ -5,8 +5,8 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
 import { Alert } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
-import Recomendacoes from './Recomendacoes';
-import Footer from './Footer';
+import Recomendacoes from '../components/Recomendacoes';
+import Footer from '../components/Footer';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -72,12 +72,12 @@ function RecipesDetails(props) {
       <Card.Img
         variant="top"
         data-testid="recipe-photo"
-        src={ ehMeal === 'true' ? strMealThumb : strDrinkThumb }
+        src={ ehMeal === true ? strMealThumb : strDrinkThumb }
       />
 
       <Card.Body>
         <Card.Title data-testid="recipe-title" className="container-title">
-          { ehMeal === 'true' ? (<span className="type-tittle">{strMeal}</span>)
+          { ehMeal === true ? (<span className="type-tittle">{strMeal}</span>)
             : (<span className="type-tittle">{strDrink}</span>) }
           <button
             type="button"
@@ -130,7 +130,7 @@ function RecipesDetails(props) {
         <Card.Text data-testid="instructions">
           { strInstructions }
         </Card.Text>
-        { ehMeal === 'true' && (
+        { ehMeal === true && (
           <Card.Text data-testid="video">
             <iframe
               title={ strMeal }
@@ -160,7 +160,7 @@ function RecipesDetails(props) {
           </ListGroup.Item>
         ))}
       </ListGroup>
-      <Recomendacoes data={ recomendados } ehMeal={ ehMeal } />
+      <Recomendacoes data={ recomendados } />
       <Footer />
     </Card>
   );

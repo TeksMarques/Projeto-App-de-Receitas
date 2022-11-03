@@ -5,32 +5,62 @@ const verificaIdNoDoneRecipes = (id) => {
   return (findId);
 };
 
-const saveMealInProgress = (id, inprogresskey) => {
-  const mockData = {
-    meals: {
-      ...inprogresskey.meals,
-      [id]: [],
-    },
-    drinks: {
-      ...inprogresskey.drinks,
-    },
+const saveMealAsDone = (data, dateDoneRecipe) => {
+  const getLocal = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+  const tags = data.strTags?.split(',') || [];
+  const doneRecipe = {
+    id: data.idMeal,
+    nationality: data.strArea,
+    name: data.strMeal,
+    category: data.strCategory,
+    image: data.strMealThumb,
+    tags,
+    alcoholicOrNot: '',
+    type: 'meal',
+    doneDate: dateDoneRecipe,
   };
-  localStorage.setItem('inProgressRecipes', JSON.stringify(mockData));
-  console.log('salvou no localStorage:', mockData);
+  getLocal.push(doneRecipe);
+  localStorage.setItem('doneRecipes', JSON.stringify(getLocal));
 };
 
-const saveDrinkInProgress = (id, inprogresskey) => {
-  const mockData = {
+const saveDrinkAsDone = (data, dateDoneRecipe) => {
+  const getLocal = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+  const tags = data.strTags?.split(',') || [];
+  const doneRecipe = {
+    id: data.idDrink,
+    nationality: '',
+    category: data.strCategory,
+    name: data.strDrink,
+    tags,
+    alcoholicOrNot: data.strAlcoholic,
+    image: data.strDrinkThumb,
+    type: 'drink',
+    doneDate: dateDoneRecipe,
+  };
+  getLocal.push(doneRecipe);
+  localStorage.setItem('doneRecipes', JSON.stringify(getLocal));
+};
+
+const mealInProgress = (id, prev, lista) => {
+  const saveThis = {
+    ...prev,
     meals: {
-      ...inprogresskey.meals,
-    },
-    drinks: {
-      ...inprogresskey.drinks,
-      [id]: [],
+      ...prev.meals,
+      [id]: lista,
     },
   };
-  localStorage.setItem('inProgressRecipes', JSON.stringify(mockData));
-  console.log('salvou no localStorage:', mockData);
+  localStorage.setItem('inProgressRecipes', JSON.stringify(saveThis));
+};
+
+const drinkInProgress = (id, prev, lista) => {
+  const saveThis = {
+    ...prev,
+    drinks: {
+      ...prev.drinks,
+      [id]: lista,
+    },
+  };
+  localStorage.setItem('inProgressRecipes', JSON.stringify(saveThis));
 };
 
 const verificaAndamentoDaReceitaESalva = (path, id) => {
@@ -39,14 +69,14 @@ const verificaAndamentoDaReceitaESalva = (path, id) => {
   if (path.includes('meal')) {
     const mealKeys = Object.keys(parseado.meals);
     if (mealKeys.find((ci) => ci === id) === undefined) {
-      saveMealInProgress(id, parseado);
+      mealInProgress(id, parseado);
     } else {
       return true;
     }
   } else {
     const drinkKeys = Object.keys(parseado.drinks);
     if (drinkKeys.find((ci) => ci === id) === undefined) {
-      saveDrinkInProgress(id, parseado);
+      drinkInProgress(id, parseado);
     } else {
       return true;
     }
@@ -114,4 +144,5 @@ const saveDrinkAsFavorite = (data) => {
 };
 
 export { verificaIdNoDoneRecipes, verificaAndamentoDaReceitaESalva,
-  verificaAndamentoDaReceita, saveMealAsFavorite, saveDrinkAsFavorite };
+  verificaAndamentoDaReceita, saveMealAsFavorite, saveDrinkAsFavorite,
+  mealInProgress, drinkInProgress, saveMealAsDone, saveDrinkAsDone };
