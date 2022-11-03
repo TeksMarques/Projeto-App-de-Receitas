@@ -15,7 +15,7 @@ export default function RecipeCards(props) {
 
   const MAX_MAPPED_ITEMS = 12;
   return (
-    <Row xs={ 2 } md={ 2 } className="g-4">
+    <Row xs={ 1 } md={ 1 } className="g-4">
       { data.map((item, idx) => (idx < MAX_MAPPED_ITEMS) && (
         <Col key={ idx }>
           <Link

@@ -115,6 +115,7 @@ function RecipesDetails(props) {
           <Badge bg="success">
             { strCategory }
           </Badge>
+          { ' ' }
           <Badge bg="success">
             { strAlcoholic }
           </Badge>
@@ -142,25 +143,27 @@ function RecipesDetails(props) {
               encrypted-media; gyroscope; picture-in-picture"
             />
           </Card.Text>) }
+        <Card.Text>
+
+          <ListGroup as="ul" variant="flush">
+            { ingredients.map((ingredient, index) => (
+              <ListGroup.Item
+                className="d-flex justify-content-between align-items-start"
+                as="li"
+                data-testid={ `${index}-ingredient-name-and-measure` }
+                key={ index }
+              >
+                <div className="ms-2 me-auto">
+                  { ingredient }
+                </div>
+                <Badge bg="primary" pill>
+                  { measures[index] }
+                </Badge>
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+        </Card.Text>
       </Card.Body>
-      <ListGroup className="list-group-flush" as="ul">
-        { ingredients.map((ingredient, index) => (
-          <ListGroup.Item
-            as="li"
-            data-testid={ `${index}-ingredient-name-and-measure` }
-            key={ index }
-            className="d-flex justify-content-between align-items-center"
-            style={ { width: '360px' } }
-          >
-            {/* <div className="ms-2 me-auto"> */}
-            { ingredient }
-            {/* </div> */}
-            <Badge bg="primary" pill>
-              { measures[index] }
-            </Badge>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
       <Recomendacoes data={ recomendados } />
       <Footer />
     </Card>
