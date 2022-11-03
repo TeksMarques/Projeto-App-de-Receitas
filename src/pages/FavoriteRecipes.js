@@ -9,14 +9,12 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 const copy = require('clipboard-copy');
 
 export default function FavoriteRecipes() {
   const [data, setData] = useState([]);
-  const [dataKeys, setDataKeys] = useState([]);
   const [filterBy, setFilterBy] = useState('all');
   const [showMessage, setShowMessage] = useState(false);
   const history = useHistory();
@@ -24,15 +22,7 @@ export default function FavoriteRecipes() {
   useEffect(() => {
     const getLocal = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     setData(getLocal);
-    const allKeys = getLocal.map((r) => r.id);
-    setDataKeys(allKeys);
   }, []);
-
-  const handleKeys = (newDataKeys) => {
-    const getNewLocal = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    setData(getNewLocal);
-    setDataKeys(newDataKeys);
-  };
 
   const shareRecipe = (receita) => {
     const path1 = window.location.href.replace('/favorite-recipes', '');
@@ -58,13 +48,11 @@ export default function FavoriteRecipes() {
     return obj;
   };
 
-  const favoriteRecipe = useCallback((rf) => {
+  const desfavoriteRecipe = useCallback((rf) => {
     const newData = data.filter((arf) => arf.id !== rf.id);
-    const newDataKeys = dataKeys.filter((key) => key !== rf.id);
-    handleKeys(newDataKeys);
     setData(newData);
     localStorage.setItem('favoriteRecipes', JSON.stringify(newData));
-  }, [data, dataKeys]);
+  }, [data]);
 
   return (
     <div>
@@ -124,20 +112,13 @@ export default function FavoriteRecipes() {
               <button
                 type="button"
                 className="search-top"
-                onClick={ () => favoriteRecipe(recipe) }
+                onClick={ () => desfavoriteRecipe(recipe) }
               >
-                { dataKeys.some((key) => key === recipe.id) ? (
-                  <img
-                    src={ blackHeartIcon }
-                    alt="Receita favoritada"
-                    data-testid="favorite-btn"
-                  />)
-                  : (
-                    <img
-                      src={ whiteHeartIcon }
-                      alt="Favorite esta receita!"
-                      data-testid="favorite-btn"
-                    />) }
+                <img
+                  src={ blackHeartIcon }
+                  alt="Receita favoritada"
+                  data-testid={ `${idx}-horizontal-favorite-btn` }
+                />
               </button>
             </Card.Title>
             { showMessage && (
