@@ -51,6 +51,7 @@ describe('Testes da tela Footer - Menu inferior', () => {
       expect(fetch).toHaveBeenCalled();
     }
   });
+
   // it('Inicia uma nova receita', () => {
   //   jest.spyOn(global, 'fetch').mockImplementation(async () => ({ json: async () => meals }));
   //   const { history } = renderWithRouter(
