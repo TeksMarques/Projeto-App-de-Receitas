@@ -111,7 +111,7 @@ export default function DoneRecipes() {
               </Card.Text>
             ) }
             <Card.Text>
-              { recipe.tags.map((tagName) => (
+              { recipe.tags?.map((tagName) => (
                 <Badge
                   data-testid={ `${idx}-${tagName}-horizontal-tag` }
                   key={ tagName }
