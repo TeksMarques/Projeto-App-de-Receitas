@@ -40,4 +40,36 @@ describe('Testes da tela Profile', () => {
     expect(screen.getByTestId('email-input')).toBeInTheDocument();
     expect(screen.getByTestId('password-input')).toBeInTheDocument();
   });
+  test('Mostra email', () => {
+    const email = { email: 'outro@trybe.com' };
+
+    localStorage.setItem('user', JSON.stringify(email));
+
+    jest.spyOn(Object.getPrototypeOf(global.localStorage), 'getItem')
+      .mockReturnValue(JSON.stringify(email));
+
+    const { history } = renderWithRouter(
+      <App />,
+    );
+    act(() => {
+      history.push('/profile');
+    });
+
+    screen.getByText('outro@trybe.com');
+
+    expect(localStorage.getItem).toHaveBeenCalled();
+  });
+  it('Testa caso não tenha LocalStorage', async () => {
+    jest.spyOn(Object.getPrototypeOf(global.localStorage), 'getItem')
+      .mockReturnValue(JSON.stringify(''));
+
+    const { history } = renderWithRouter(
+      <App />,
+    );
+    act(() => {
+      history.push('/profile');
+    });
+
+    expect(localStorage.getItem).toHaveBeenCalled();
+  });
 });

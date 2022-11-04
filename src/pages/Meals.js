@@ -28,7 +28,7 @@ export default function Meals() {
             >
               All
             </Nav.Link>
-            { mealsCategories?.filter((_, i) => i < MAX_CATEGORIES)
+            { mealsCategories?.filter((mc, i) => i < MAX_CATEGORIES)
               ?.map((cat) => (
                 <Nav.Link
                   variant="success"
