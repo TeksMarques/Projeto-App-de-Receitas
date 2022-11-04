@@ -1,16 +1,20 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-// import { act } from 'react-dom/test-utils';
+import { act } from 'react-dom/test-utils';
 import { renderWithRouter } from './renderWith';
 import RecipesProvider from '../context/RecipesProvider';
-// import App from '../App';
+import App from '../App';
 import Meals from '../pages/Meals';
 import Drinks from '../pages/Drinks';
-// import meals from '../../cypress/mocks/meals';
+import meals from '../../cypress/mocks/meals';
 
 describe('Testes da tela Footer - Menu inferior', () => {
+  beforeEach(() => {
+    jest.spyOn(global, 'fetch').mockImplementation(async () => ({ json: async () => meals }));
+  });
+
   it('Procura elementos obrigatórios', () => {
     const { history } = renderWithRouter(
       <RecipesProvider>
@@ -52,23 +56,26 @@ describe('Testes da tela Footer - Menu inferior', () => {
     }
   });
 
-  // it('Inicia uma nova receita', () => {
-  //   jest.spyOn(global, 'fetch').mockImplementation(async () => ({ json: async () => meals }));
-  //   const { history } = renderWithRouter(
-  //     <App />,
-  //   );
-  //   act(() => {
-  //     history.push('/meals');
-  //   });
-  //   if (history.location.pathname === '/meals') {
-  //     const firstCard = screen.getByTestId('0-recipe-card');
-  //     expect(firstCard).toBeInTheDocument();
-  //     userEvent.click(firstCard);
-  //     const startBtn = screen.findByTestId('start-recipe-btn');
-  //     expect(startBtn).toBeInTheDocument();
-  //     userEvent.click(startBtn);
-  //     const finishBtn = screen.findByTestId('finish-recipe-btn');
-  //     expect(finishBtn).toBeInTheDocument();
-  //   }
-  // });
+  it('Inicia uma nova receita', async () => {
+    const { history } = renderWithRouter(
+      <App />,
+    );
+    act(() => {
+      history.push('/meals');
+    });
+    await waitFor(() => {
+      const firstCard = screen.getByTestId('0-recipe-card');
+      expect(firstCard).toBeInTheDocument();
+      userEvent.click(firstCard);
+    });
+    await waitFor(() => {
+      const startBtn = screen.getByTestId('start-recipe-btn');
+      expect(startBtn).toBeInTheDocument();
+      userEvent.click(startBtn);
+    });
+    await waitFor(() => {
+      const finishBtn = screen.getByTestId('finish-recipe-btn');
+      expect(finishBtn).toBeInTheDocument();
+    });
+  });
 });

@@ -70,19 +70,17 @@ describe('Testes da tela DoneRecipes', () => {
       expect(btn).toBeInTheDocument();
     });
   });
-  // it('clica no botão', async () => {
-  //   global.alert = jest.fn().mockReturnValue('http://localhost:3000/meals/52977');
+  // it('clica no botão', () => {
   //   const { history } = renderWithRouter(
   //     <App />,
   //   );
   //   act(() => {
   //     history.push(path);
   //   });
-  //   await waitFor(() => {
-  //     const btn = screen.getByTestId('0-horizontal-share-btn');
-  //     userEvent.click(btn);
-  //     expect(global.alert).toHaveBeenCalledTimes(1);
-  //     expect(global.alert()).toBe('http://localhost:3000/meals/52977');
-  //   });
+
+  //   const btn = screen.getByTestId('0-horizontal-share-btn');
+  //   userEvent.click(btn);
+
+  //   expect(screen.getByText('Link copied!')).toBeInTheDocument();
   // });
 });

@@ -77,12 +77,6 @@ describe('Testes da tela SearchBar', () => {
     const radioFirstLetterElement = screen.getByTestId(firstLetterSearchRadio);
     const getResultButtonElement = screen.getByTestId(execSearchButton);
 
-    // userEvent.type(searchBarElement, 'ca');
-    // userEvent.click(radioFirstLetterElement);
-    // userEvent.click(getResultButtonElement);
-    // global.alert = jest.fn();
-    // expect(alert).toHaveBeenCalledTimes(1);
-
     userEvent.type(searchBarElement, 'c');
     userEvent.click(radioFirstLetterElement);
     userEvent.click(getResultButtonElement);
@@ -94,11 +88,5 @@ describe('Testes da tela SearchBar', () => {
         expect(element).toBeInTheDocument();
       }
     });
-
-    // userEvent.type(searchBarElement, 'ca');
-    // userEvent.click(radioFirstLetterElement);
-    // userEvent.click(getResultButtonElement);
-    // global.alert = jest.fn();
-    // expect(global.alert).toHaveBeenCalledTimes(0);
   });
 });
