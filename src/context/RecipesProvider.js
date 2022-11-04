@@ -85,15 +85,19 @@ function RecipesProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    async function fazoFetch() {
+    async function osFetchTudo() {
+      const getMeal = await fetchMealBy(false, false);
       const fetchMealCat = await fetchMealCategories();
+      const getDrink = await fetchDrinkBy(false, false);
       const fetchDrinkCat = await fetchDrinkCategories();
       setMealsCategories(fetchMealCat);
+      setMealsData(getMeal);
       setDrinksCategories(fetchDrinkCat);
+      setDrinksData(getDrink);
     }
-    fazoFetch();
-    fetchMeal();
-    fetchDrink();
+    osFetchTudo();
+    setFiltroAtivado('');
+    setsearchByCategory(false);
   }, [fetchMeal, fetchDrink]);
 
   const tituloPagina = ({ location: { pathname } }) => {

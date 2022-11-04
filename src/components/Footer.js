@@ -23,44 +23,45 @@ export default function Footer(props) {
     setContinueButton(value);
   }, []);
 
-  const findInProgressRecipe = useCallback((id, parse) => {
-    const mealKeys = Object.keys(parse.meals) || [];
-    const drinkKeys = Object.keys(parse.drinks) || [];
-    const allKeys = mealKeys.concat(drinkKeys) || [];
-    if (allKeys.some((k) => k === id)) handleContinueButton(true);
-    else handleContinueButton(false);
+  const findInProgressRecipe = useCallback((id, getLocal) => {
+    // const mealKeys = Object.keys(parse.meals) || [];
+    // const drinkKeys = Object.keys(parse.drinks) || [];
+    // const allKeys = mealKeys.concat(drinkKeys) || [];
+    if (getLocal !== undefined) {
+      const keys = Object.keys(getLocal);
+      if (keys.some((re) => re === id)) handleContinueButton(true);
+      else handleContinueButton(false);
+    };
   }, [handleContinueButton]);
 
   useEffect(() => {
     if (pathname.includes('in-progress')) handleContinueButton(true);
-    const getLocal = localStorage.getItem('inProgressRecipes');
-    const parse = JSON.parse(getLocal) || { meals: {}, drinks: {} };
+    const getLocal = JSON.parse(localStorage.getItem('inProgressRecipes'))
+    || { meals: {}, drinks: {} };
     if (pathname.startsWith('/meal')) {
       const newId = pathname.slice(INDEX_MEAL_ID);
-      findInProgressRecipe(newId, parse);
+      findInProgressRecipe(newId, getLocal.meals);
     }
     if (pathname.includes('/drink')) {
       const newId = pathname.slice(INDEX_DRINK_ID);
-      findInProgressRecipe(newId, parse);
+      findInProgressRecipe(newId, getLocal.drinks);
     }
   }, [history, pathname, handleContinueButton, findInProgressRecipe]);
 
   return (
     <footer data-testid="footer">
-      { (meals || drinks || profile) && (
-        <div className="footer" data-testid="footer">
-          <Link to="/meals">
-            <img src={ mealIcon } alt="Meals" data-testid="meals-bottom-btn" />
-          </Link>
-          <Link to="/drinks">
-            <img src={ drinkIcon } alt="Drinks" data-testid="drinks-bottom-btn" />
-          </Link>
-        </div>
-      ) }
-      { ((pathname.startsWith('/meals/')
-      || pathname.startsWith('/drinks/'))
-      )
-        && (
+      { (meals || drinks || profile)
+        ? (
+          <div className="footer" data-testid="footer">
+            <Link to="/meals">
+              <img src={ mealIcon } alt="Meals" data-testid="meals-bottom-btn" />
+            </Link>
+            <Link to="/drinks">
+              <img src={ drinkIcon } alt="Drinks" data-testid="drinks-bottom-btn" />
+            </Link>
+          </div>
+        )
+        : (
           <div className="d-grid gap-2">
             <Button
               variant="success"
