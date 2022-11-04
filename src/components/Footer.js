@@ -31,7 +31,7 @@ export default function Footer(props) {
       const keys = Object.keys(getLocal);
       if (keys.some((re) => re === id)) handleContinueButton(true);
       else handleContinueButton(false);
-    };
+    }
   }, [handleContinueButton]);
 
   useEffect(() => {
