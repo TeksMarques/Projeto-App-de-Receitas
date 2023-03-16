@@ -12,3 +12,17 @@ Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua cr
 - quais arquivos/pastas foram desenvolvidos pela Trybe.
 -->
 # Projeto desenvolvido em grupo.
+
+Recipes App - Tão Tão Doce
+Projeto colaborativo entre a equipe de desenvolvedores Frontend formada por:
+
+Daniel Wolter (D-Wolter)
+<br>
+Christian Bechstadt (cbechstedt)
+<br>
+Pedro Santos (pedroshalom)
+<br>
+Teresa Marques (TeksMarques)
+<br>
+<br>
+A base de desenvolvimento foi React, Context Api e Boostrap.
